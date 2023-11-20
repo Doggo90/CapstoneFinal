@@ -44,6 +44,10 @@
                                         Don't have an account?
                                         <a href="{{ route('register') }}" class="text-success text-gradient font-weight-bold">Sign up</a>
                                     </p>
+                                    <a href="/auth/google/redirect" class="btn btn-info text-white">
+                                        <i class="fa fa-google"> </i>
+                                        Sign in with Google
+                                    </a>
                                 </div>
                             </div>
                         </div>

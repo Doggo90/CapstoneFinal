@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,16 +44,12 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function scopeFilter($query, array $filters){
+    public function scopeFilter($query, $value){
 
-        $query-> where('name', 'like', '%' . request('tag'). '%');
-
-        if($filters['search'] ?? false){
-            $query-> where('name', 'like', '%' . request('search'). '%')
-            ->orWhere('email', 'like', '%' . request('search'). '%')
-            ->orWhere('phone', 'like', '%' . request('search'). '%')
-            ->orWhere('role', 'like', '%' . request('search'). '%');
-        }
+        $query-> where('name', 'like', '%' . $value . '%')
+        ->orWhere('email', 'like', '%' . $value . '%')
+        ->orWhere('phone', 'like', '%' . $value . '%')
+        ->orWhere('role', 'like', '%' . $value . '%');
 
     }
     public static function generateUsername($username){

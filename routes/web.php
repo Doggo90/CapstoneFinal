@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
@@ -25,9 +21,18 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\ProviderController;
 use App\Livewire\SortButton;
 use App\Livewire\CreatePost;
 use App\Livewire\Upvote;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+// GOOGLE LOG IN API
+Route::get('/auth/google/redirect', [ProviderController::class,'redirect']);
+Route::get('/auth/google/callback', [ProviderController::class,'callback']);
+// END GOOGLE LOG IN API
 
 
 Route::get('/', function () {return redirect('/dashboard');});
@@ -45,7 +50,7 @@ Route::get('/archives', [PostController::class, 'archives'])->name('archives');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
-	Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
+	Route::get('/profile/{user}', [UserProfileController::class, 'show'])->name('profile');
 	Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
 	Route::get('/profile-static', [PageController::class, 'profile'])->name('profile-static');
 	Route::get('/sign-in-static', [PageController::class, 'signin'])->name('sign-in-static');

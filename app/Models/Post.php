@@ -14,18 +14,21 @@ class Post extends Model
 
 
     protected $guarded=[];
-    public function scopeFilter($query, array $filters){
 
-        $query-> where('tags', 'like', '%' . request('tag'). '%');
+    public function scopeSearch($query, $value){
+        // $query-> where('tags', 'like', "%{{$value}}%");
 
-        if($filters['search'] ?? false){
-            $query-> where('title', 'like', '%' . request('search'). '%')
-            ->orWhere('body', 'like', '%' . request('search'). '%')
-            ->orWhereHas('author', function ($subQuery) {
-                $subQuery->where('name', 'like', '%' . request('search') . '%');
-            })
-            ->orWhere('tags', 'like', '%' . request('search'). '%');
-        }
+        // if($value['search'] ?? false){
+        //
+        // }
+        $query->where('title', 'like', '%' . $value . '%')
+        ->orWhere('body', 'like', '%' . $value . '%')
+        ->orWhereHas('author', function ($subQuery) use ($value) {
+            $subQuery
+                ->where('name', 'like', '%' . $value . '%')
+                ->orWhere('email', 'like', '%' . $value . '%')
+                ->orWhere('phone', 'like', '%' . $value . '%');
+        });
 
     }
     protected static function boot()

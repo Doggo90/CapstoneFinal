@@ -30,9 +30,13 @@
                 @if($comment->post_id === $this->post->id)
                     <div class="d-flex mb-4">
                         <!-- Parent comment-->
-                        <div class="flex-shrink-0"><img class="img-fluid rounded-circle" style="width: 3rem; height: 3rem;" src="{{ (!empty($comment->author->photo)) ? url($comment->author->photo) : url('/img/no-image.png')}}" alt="..."></div>
+                        <a href="/profile/{{$comment->author->id}}">
+                            <div class="flex-shrink-0"><img class="img-fluid rounded-circle" style="width: 3rem; height: 3rem;" src="{{ (!empty($comment->author->photo)) ? url($comment->author->photo) : url('/img/no-image.png')}}" alt="..."></div>
+                        </a>
                         <div class="ms-3">
-                            <div class="fw-bold">{{$comment->author->name}}</div>
+                            <a href="/profile/{{$comment->author->id}}">
+                                <div class="fw-bold">{{$comment->author->name}}</div>
+                            </a>
                             {{$comment->comment_body}}
                             <!-- Child comment 1-->
                             <div>

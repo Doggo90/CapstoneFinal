@@ -1,5 +1,9 @@
 
 <div class="card">
+    <form wire:submit.prevent="search" class="input-group">
+        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+        <input type="text" wire:model.live.debounce.300ms="search" name="search" id="search" class="form-control" placeholder="Search here...">
+    </form><br>
     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
         <label class="btn btn-outline-success" for="btnradio1" wire:click="setSortBy('created_at')">Latest</label>
@@ -9,7 +13,7 @@
 
         <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
         <label class="btn btn-outline-success" for="btnradio3" wire:click="setSortBy('comments_count')">Comments</label>
-      </div>
+    </div>
 
 @foreach($posts as $post)
     @if ($post->is_archived == 0)

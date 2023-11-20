@@ -25,7 +25,7 @@ class PostController extends Controller
         $mostComments = Post::all()
         ->sortByDesc('comments_count')
         ->first();
-        
+
         return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments'));
     }
 
@@ -84,7 +84,7 @@ class PostController extends Controller
     {
         $announcements = Announcement::all();
         $allposts = Post::all();
-        return view('pages.archives', compact('posts','allposts', 'sortBy', 'announcements', 'categories'));
+        return view('pages.archives', compact('announcements', 'allposts'));
     }
 
 }

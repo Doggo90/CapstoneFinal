@@ -13,30 +13,11 @@
                             <div class="card-header">
                                 <!-- Post title-->
                                 <h2 class="fw-bolder mb-1">{{$post->title}}</h2>
-                            @auth
-                                @if (auth()->user()->role == 'admin')
-                                    @if($post->is_archived == 0){{-- IF THE POST IS CURRENTLY NOT ARCHIVED--}}
-                                        <form action="/post/{{$post->id}}" method="POST">
-                                            @csrf
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" id="is_archived" name="is_archived" value="1">
-                                                <label class="form-check-label" for="is_archived">Archive Post</label>
-                                            </div>
-                                        </form>
-                                    @elseif($post->is_archived == 1) {{-- IF THE POST IS CURRENTLY ARCHIVED--}}
-                                        <form action="/post/{{$post->id}}" method="POST">
-                                            @csrf
-                                            <label class="relative inline-flex items-center cursor-pointer">
-                                                <input type="checkbox" id="is_archived" name="is_archived" value="0" class="sr-only peer">
-                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-                                                <span class="ml-3 text-sm font-medium text-black-900 dark:text-black-300">Un-Archive Post</span>
-                                            </label>
-                                        </form>
-                                    @endif
-                                @endif
-                            @endauth
+                                <livewire:archive-button :post="$post" />
                                 <!-- Post meta content-->
-                                <div class="text-muted fst-italic mb-2">{{$post->created_at->diffForHumans()}} by <a href="#">{{$post->author->name}}</a></div>
+                                <div class="text-muted fst-italic mb-2">{{$post->created_at->diffForHumans()}} by
+                                    <a href="/profile/{{$post->author->id}}">{{$post->author->name}} <i class="fa fa-star"></i>{{$post->author->reputation}}</a>
+                                </div>
                                 <!-- Post categories-->
                                     <x-post-tags :tagsCsv="$post->tags"/>
                             </div>
@@ -171,7 +152,6 @@
 @endsection
 
 @push('js')
-    <script src="./assets/js/plugins/chartjs.min.js"></script>
     <script>
         var ctx1 = document.getElementById("chart-line").getContext("2d");
 

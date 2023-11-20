@@ -33,12 +33,15 @@
                         <i class="fa fa-arrow-up text-success me-2"></i>
                         <span class="font-weight-bold">{{$post->likes()->count()}}</span>
                         <i class="fa fa-comment text-success ms-3 me-2"></i>
-                        <span class="font-weight-bold">65 Comments</span>
+                        <span class="font-weight-bold">{{$post->comments_count}}</span>
                     </p>
                 </div>
             </div>
         </a>
         <br>
     @endif
+
 @endforeach
+
+
 </div>

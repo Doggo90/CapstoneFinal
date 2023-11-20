@@ -10,19 +10,16 @@
 
             {{-- SEARCH BUTTON --}}
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="Type here...">
-                </div>
+                <livewire:search-button />
             </div>
             {{-- END SEARCH BUTTON --}}
             @auth
             <div class="btn-group mt-3">
                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{auth()->user()->name}}
+                    {{ \Illuminate\Support\Str::limit(explode(' ', auth()->user()->name)[0], $limit = 15, $end = '...') }}
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="/profile/{{auth()->user()->id}}">Profile</a></li>
                     @if (auth()->user()->role == "admin")
                     <li><a class="dropdown-item" href="{{route('archives')}}">Archived Posts</a></li>
                     @endif

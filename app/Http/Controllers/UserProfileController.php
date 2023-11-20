@@ -8,35 +8,24 @@ use App\Models\User;
 
 class UserProfileController extends Controller
 {
-    public function show()
+    public function show(User $user)
     {
-        return view('pages.user-profile');
+        // $posts = $user->posts()->paginate(5);
+        return view('pages.user-profile', compact('user'));
     }
 
     public function update(Request $request)
     {
         $attributes = $request->validate([
-            'username' => ['required','max:255', 'min:2'],
-            'firstname' => ['max:100'],
-            'lastname' => ['max:100'],
-            'email' => ['required', 'email', 'max:255',  Rule::unique('users')->ignore(auth()->user()->id),],
-            'address' => ['max:100'],
-            'city' => ['max:100'],
-            'country' => ['max:100'],
-            'postal' => ['max:100'],
-            'about' => ['max:255']
+            'phone' => ['required','max:11', 'min:11'],
+            'address' => ['max:255'],
+            'bio' => ['max:255']
         ]);
 
         auth()->user()->update([
-            'username' => $request->get('username'),
-            'firstname' => $request->get('firstname'),
-            'lastname' => $request->get('lastname'),
-            'email' => $request->get('email') ,
+            'phone' => $request->get('phone'),
             'address' => $request->get('address'),
-            'city' => $request->get('city'),
-            'country' => $request->get('country'),
-            'postal' => $request->get('postal'),
-            'about' => $request->get('about')
+            'bio' => $request->get('bio'),
         ]);
         return back()->with('success', 'Profile succesfully updated');
     }

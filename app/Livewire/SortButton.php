@@ -8,6 +8,7 @@ use App\Models\Post;
 class SortButton extends Component
 {
 
+    public $search = '';
     public $sortBy = 'created_at';
     public $sortDir = 'DESC';
 
@@ -18,15 +19,14 @@ class SortButton extends Component
             return;
         }
         $this->sortBy = $sortByField;
-
     }
 
     public function render()
     {
-        $posts = Post::withCount(['likes','comments'])
-            ->orderBy($this->sortBy, $this->sortDir)
-            ->get();
-
+        $posts = Post::search($this->search)
+        ->withCount(['likes', 'comments'])
+        ->orderBy($this->sortBy, $this->sortDir)
+        ->get();
 
         return view('livewire.sort-button', [
             'posts' => $posts,
