@@ -22,7 +22,6 @@
                 <div class="card-header pb-0 pt-3 bg-transparent">
                     <h6 class="text-capitalize">
                         <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;" src="{{ (!empty($post->author->photo)) ? url($post->author->photo) : url('/img/no-image.png')}}" alt="profile">
-
                         {{$post->author->name}}</h6>
                     <p class="text-sm mb-0">
                         <i class="fa fa-clock text-success"></i>

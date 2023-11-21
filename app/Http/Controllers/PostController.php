@@ -18,6 +18,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $announcements = Announcement::all();
+        $categories = Category::all();
         $allposts = Post::all();
         $mostUpvotes = Post::withCount('likes')
         ->orderByDesc('likes_count')
@@ -26,13 +27,34 @@ class PostController extends Controller
         ->sortByDesc('comments_count')
         ->first();
 
-        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments'));
+        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories'));
     }
+    public function AnnouncementShow(Announcement $announcement){
+        $announcements = Announcement::all();
+        $categories1 = Category::all();
+        $users = User::all();
+        $announcement = Announcement::with('author')->find($announcement->id);
 
+
+        return view('pages.announcement', compact('users', 'announcement', 'announcements', 'categories1'));
+    }
 
     /**
      * Show the form for creating a new resource.
      */
+    public function CategoryShow(Category $category)
+    {
+        $announcements = Announcement::all();
+        $categories = Category::with('posts')->find($category->id);
+        $categories1 = Category::all();
+        $mostUpvotes = Post::withCount('likes')
+        ->orderByDesc('likes_count')
+        ->first();
+        $mostComments = Post::all()
+        ->sortByDesc('comments_count')
+        ->first();
+        return view('pages.category', compact('mostUpvotes','mostComments','announcements','categories','categories1'));
+    }
     public function create()
     {
         //
@@ -51,10 +73,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $categories = Post::with('category')->find($post->id);
         $users = User::all();
         $post = Post::with('author')->find($post->id);
-
-        return view('pages.show', compact('users', 'post'));
+        $announcements = Announcement::all();
+        $categories1 = Category::all();
+        return view('pages.show', compact('users', 'post', 'categories', 'announcements','categories1'));
     }
 
     /**

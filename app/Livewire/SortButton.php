@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
+use App\Models\Category;
 
 class SortButton extends Component
 {
@@ -27,9 +28,7 @@ class SortButton extends Component
         ->withCount(['likes', 'comments'])
         ->orderBy($this->sortBy, $this->sortDir)
         ->get();
-
-        return view('livewire.sort-button', [
-            'posts' => $posts,
-        ]);
+        $categories = Category::with('posts')->get();
+        return view('livewire.sort-button',compact('posts', 'categories'));
     }
 }

@@ -47,6 +47,8 @@ Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('
 Route::get('/dashboard', [PostController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PostController::class, 'show'])->name('show');
 Route::get('/archives', [PostController::class, 'archives'])->name('archives');
+Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->name('categories');
+Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->name('announcements');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

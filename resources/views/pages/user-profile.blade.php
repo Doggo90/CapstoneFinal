@@ -122,7 +122,7 @@
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Bio</label>
                                             <textarea class="form-control" type="text" name="bio" id="bio"
-                                                value="{{ old('about', auth()->user()->about) }}" placeholder="Please enter something about yourself."></textarea>
+                                                value="{{ old('bio', auth()->user()->bio) }}" placeholder="Please enter something about yourself."></textarea>
                                         </div>
                                     </div>
                                 </div>

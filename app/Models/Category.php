@@ -13,8 +13,8 @@ class Category extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function category(): belongsToMany
+    public function posts(): belongsToMany
     {
-        return $this->belongsToMany(Post::class);
+        return $this->belongsToMany(Post::class, 'post_category')->withTimestamps();
     }
 }
