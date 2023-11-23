@@ -71,6 +71,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(Post $post)
     {
         $categories = Post::with('category')->find($post->id);

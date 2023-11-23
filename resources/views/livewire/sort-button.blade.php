@@ -44,4 +44,9 @@
         <br>
     @endif
 @endforeach
+
+<div class="d-flex justify-content-center">
+    {{ $posts->links('vendor.pagination.bootstrap-4') }}
+</div>
+
 </div>

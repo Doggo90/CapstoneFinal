@@ -59,9 +59,6 @@ class CommentResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_helpful')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('upvotes')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

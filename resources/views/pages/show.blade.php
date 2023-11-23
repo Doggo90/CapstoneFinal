@@ -16,14 +16,15 @@
                                 <livewire:archive-button :post="$post" />
                                 <!-- Post meta content-->
                                 <div class="text-muted fst-italic mb-2">{{$post->created_at->diffForHumans()}} by
-                                    <a href="/profile/{{$post->author->id}}">{{$post->author->name}} <i class="fa fa-star"></i>{{$post->author->reputation}}</a>
+                                    <a href="/profile/{{$post->author->id}}">
+                                        {{ \Illuminate\Support\Str::limit(explode(' ', $post->author->name)[0], $limit = 15, $end = ''). ' '}}<i class="fa fa-star"></i>{{$post->author->reputation}}</a>
                                 </div>
                                 <!-- Post categories-->
                                     {{-- <x-post-tags :tagsCsv="$post->tags"/> --}}
                                 <ul class="flex list-inline">
                                     @foreach($categories->category as $category)
                                     <li class="badge bg-secondary text-decoration-none link-light list-inline-item">
-                                        <a href="/index?tag={{$category->id}}" style="text-decoration: none; color:white; ">
+                                        <a href="/category/{{$category->id}}" style="text-decoration: none; color:white; ">
                                         {{$category->name}}
                                         </a>
                                     </li>

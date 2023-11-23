@@ -6,6 +6,8 @@ use Livewire\Component;
 use App\Models\Post;
 use App\Models\Comment;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\On;
+use App\Notifications\CommentNotif;
 
 class CommentSection extends Component
 {
@@ -19,15 +21,20 @@ class CommentSection extends Component
         $this->validate([
             'comment_body' => 'required | min:2'
         ]);
-        Comment::create([
+
+        $comment = Comment::create([
             'user_id' => auth()->user()->id,
             'post_id' => $this->post->id,
             'comment_body' => $this->comment_body
         ]);
+        $this->dispatch('comment-created', $comment);
+        if(auth()->user()->email != $this->post->author->email){
+            $this->post->author->notify(new CommentNotif($comment));
+        }
         $this->comment_body = '';
 
     }
-
+    #[On('comment-created')]
     public function render()
     {
         $comments = Comment::all();

@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrganizationResource extends Resource
 {
-    protected static ?string $model = Organizations::class;
+    protected static ?string $model = Organization::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
@@ -29,9 +29,6 @@ class OrganizationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -44,9 +41,6 @@ class OrganizationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nickname')

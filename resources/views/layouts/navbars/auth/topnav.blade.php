@@ -12,13 +12,21 @@
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
                 <livewire:search-button />
             </div>
+
             {{-- END SEARCH BUTTON --}}
+            <!-- Example single danger button -->
+            <div class="align-items-center me-1 ms-2">
+                @auth
+                    <livewire:notif-button />
+                @endauth
+
+            </div>
             @auth
-            <div class="btn-group mt-3">
+            <div class="btn-group mt-3 ms-1">
                 <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ \Illuminate\Support\Str::limit(explode(' ', auth()->user()->name)[0], $limit = 15, $end = '...') }}
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-end mt-0">
                     <li><a class="dropdown-item" href="/profile/{{auth()->user()->id}}">Profile</a></li>
                     @if (auth()->user()->role == "admin")
                     <li><a class="dropdown-item" href="{{route('archives')}}">Archived Posts</a></li>
