@@ -76,7 +76,7 @@ class User extends Authenticatable implements FilamentUser
     }
     public function organizations(): belongsTo
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization_id');       
     }
     public function canAccessPanel(Panel $panel): bool
     {

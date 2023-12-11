@@ -145,6 +145,7 @@
                         </div>
                     </div>
                 </a>
+                <br>
                 @endforeach
                 <br>
                 {{-- CATEGORIES CARD --}}
@@ -153,14 +154,14 @@
                         <h4 class="mb-0">Categories</h4>
                     </div>
                     <div class="card-body p-3">
-                        <ul class="list-group">
+                        <ul class="list-group align-items-center">
                             @foreach ($categories as $category)
                             <a href="/category/{{$category->id}}">
                                 <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
                                     <div class="d-flex align-items-center">
                                         <div class="d-flex flex-column">
                                             <h6 class="mb-1 text-dark text-sm">{{$category->name}}</h6>
-                                            <span class="text-xs">Contains {{$category->posts()->count()}} posts.</span>
+                                            <span class="text-xs text-center">Contains {{$category->posts()->count()}} posts.</span>
                                         </div>
                                     </div>
                                 </li>

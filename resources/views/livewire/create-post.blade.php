@@ -1,4 +1,49 @@
 <div class="card mx-5">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Create Post
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <br><br>
+          <h1 class="modal-title fs-5 ms-auto" id="staticBackdropLabel">Think Before You Click.</h1>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <br>
+            <form wire:submit="createPost" class="row g-3 mb-4" action="">
+                <div class="row mb-2 ms-auto">
+                        <input class="form-control mb-3" rows="3" name="title" id="title" wire:model="title" placeholder="Post Title. ">
+                            @error('title')
+                                <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+
+                            <input class="form-control mb-3" rows="3" name="tags" id="tags" wire:model="tags" placeholder="Tags(Comma Separated)">
+                            @error('tags')
+                                <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+                </div>
+                <div class="row mb-2 ms-auto">
+                    <textarea class="form-control mb-3" rows="3" name="body" id="body" wire:model="body" placeholder="Post Context"></textarea>
+                        @error('body')
+                            <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+                </div>
+        </div>
+        <div class="modal-footer mx-auto">
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Submit Post</button>
+            </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{{-- <div class="card mx-5">
     <a href="/create" type="button" class="btn btn-primary">Create Post</a>
     @auth
                 <form wire:submit="createPost" class="row g-3 mb-4" action="">
@@ -23,12 +68,10 @@
                                 @enderror
                         </div>
                         <button type="submit" class="btn btn-success">Submit Post</button>
-                                {{-- <input type="hidden" name="post_id" value="{{ $this->post->id }}">
-                                <input type="hidden" name="user_id" value="{{ $this->$post->user_id }}"> --}}
                         <br>
                 </form>
                 @else
                 <p>You need to log in to Post. <a href="/login">Click here.</a></p>
 
-                @endauth {{-- (auth()->user()) END IF ^^^ --}}
-</div>
+    @endauth
+</div> --}}

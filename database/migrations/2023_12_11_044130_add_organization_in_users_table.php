@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::dropIfExists('organizations');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('organization_id')->default('1');
+        });
     }
 
     /**
@@ -19,11 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('organizations', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('nickname')->nullable();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('organization_id');
         });
     }
 };

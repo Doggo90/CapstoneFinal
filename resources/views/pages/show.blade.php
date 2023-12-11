@@ -75,12 +75,12 @@
                         </div>
                     </div>
                 </a>
-                @endforeach
                 <br>
+                @endforeach
                 {{-- CATEGORIES CARD --}}
                 <div class="card">
                     <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Categories</h6>
+                        <h5 class="mb-0">Categories</h6>
                     </div>
                     <div class="card-body p-3">
                         <ul class="list-group">

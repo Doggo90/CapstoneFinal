@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
 
 class UserResource extends Resource
 {
@@ -49,8 +51,8 @@ class UserResource extends Resource
                                 'user' => 'user',
                             ])
                             ->default('user'),
-                        Forms\Components\Select::make('Ogranizations')
-                            ->relationship('organization', 'nickname')
+                        Forms\Components\Select::make('organization_id')
+                            ->relationship('organizations', 'nickname')
                     ])
 
                 ])
@@ -65,7 +67,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('organization.nickname')
+                Tables\Columns\TextColumn::make('organizations.nickname')
+                    ->label('Organization')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')

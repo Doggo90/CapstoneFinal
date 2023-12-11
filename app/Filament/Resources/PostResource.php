@@ -68,7 +68,6 @@ class PostResource extends Resource
                     Forms\Components\Section::make('Associations')
                         ->schema([
                             Forms\Components\Select::make('categories')
-
                                 ->relationship('category', 'name')
                                 ->multiple()
                                 ->required()
@@ -79,7 +78,7 @@ class PostResource extends Resource
 
                 ])->columnSpanFull()
 
-            ])
+            ]),
         ]);
     }
 

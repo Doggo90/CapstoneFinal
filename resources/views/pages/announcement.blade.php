@@ -55,6 +55,7 @@
                         </div>
                     </div>
                 </a>
+                <br>
                 @endforeach
                 <br>
                 {{-- CATEGORIES CARD --}}
