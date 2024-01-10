@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
-
+use DB;
 class LoginController extends Controller
 {
     /**
@@ -28,7 +30,9 @@ class LoginController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
-
+            $user = Auth::user();
+            $user->status = 'active';
+            $user->save();
             return redirect()->intended('dashboard');
         }
 
@@ -37,13 +41,17 @@ class LoginController extends Controller
         ]);
     }
 
+
+
     public function logout(Request $request)
     {
-        Auth::logout();
+        $user = Auth::user();
+        $user->status = 'inactive';
+        $user->save();
 
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return redirect('/dashboard');
     }
 }

@@ -58,7 +58,8 @@ class CommentResource extends Resource
                 Tables\Columns\TextColumn::make('comment_body')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_helpful')
-                    ->boolean(),
+                ->sortable()
+                ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

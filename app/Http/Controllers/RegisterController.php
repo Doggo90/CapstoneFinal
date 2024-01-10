@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 // use App\Http\Requests\RegisterRequest;
+use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 class RegisterController extends Controller
 {
     public function create()
@@ -12,17 +15,23 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $attributes = request()->validate([
-            'username' => 'required|max:255|min:2',
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:5|max:255',
-            'terms' => 'required'
+        $credentials = $request->validate([
+            'name' => ['required','max:255'],
+            'email' => ['required', 'email','max:255', 'unique:users'],
+            'password' => ['required','min:8'],
         ]);
-        $user = User::create($attributes);
-        auth()->login($user);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' =>Hash::make($request->password),
+        ]);
 
-        return redirect('/dashboard');
+        Auth::login($user);
+        $currUser = Auth::user();
+        $currUser->status = 'active';
+        $currUser->save();
+        return redirect('/welcome')->with('message', 'Registered and Logged In Successfully!');
     }
 }

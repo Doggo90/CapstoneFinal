@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Comments;
+use App\Models\Comment;
 use App\Models\User;
 use App\Http\Controllers\CommentsController;
 use App\Models\Announcement;
 use App\Models\Category;
 use App\Models\Post;
+use App\Livewire\SortButton;
+use Livewire\WithPagination;
 class PostController extends Controller
 {
+    use WithPagination;
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+
         $announcements = Announcement::all();
         $categories = Category::all();
         $allposts = Post::all();
@@ -27,8 +31,10 @@ class PostController extends Controller
         ->sortByDesc('comments_count')
         ->first();
 
+
         return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories'));
     }
+
     public function AnnouncementShow(Announcement $announcement){
         $announcements = Announcement::all();
         $categories1 = Category::all();
@@ -55,6 +61,14 @@ class PostController extends Controller
         ->first();
         return view('pages.category', compact('mostUpvotes','mostComments','announcements','categories','categories1'));
     }
+
+    public function AllCategories(Category $category)
+    {
+        $categories = Category::all();
+        return view('pages.categories', compact('categories'));
+    }
+
+
     public function create()
     {
         //
@@ -79,7 +93,13 @@ class PostController extends Controller
         $post = Post::with('author')->find($post->id);
         $announcements = Announcement::all();
         $categories1 = Category::all();
-        return view('pages.show', compact('users', 'post', 'categories', 'announcements','categories1'));
+        $postIds = Comment::pluck('post_id')->unique()->toArray();
+
+        $comments = Comment::with('post')  // Assuming your relationship is named 'post'
+            ->where('post_id', $postIds)   // Replace $postId with the actual post ID
+            ->get();
+
+        return view('pages.show', compact('users','comments', 'post', 'categories', 'announcements','categories1'));
     }
 
     /**
@@ -111,5 +131,12 @@ class PostController extends Controller
         $allposts = Post::all();
         return view('pages.archives', compact('announcements', 'allposts'));
     }
+    public function firstLogin()
+    {
+        $user = Auth::user();
+        return view('pages.firstLogin', compact('user'));
+    }
+
+
 
 }

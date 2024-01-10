@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use App\Models\Post;
@@ -11,9 +12,13 @@ use Livewire\WithPagination;
 class SortButton extends Component
 {
     use WithPagination;
+    #[Url()]
     public $search = '';
+    #[Url()]
     public $sortBy = 'created_at';
+    #[Url()]
     public $sortDir = 'DESC';
+
 
     public function setSortBy($sortByField){
 
@@ -31,7 +36,7 @@ class SortButton extends Component
         $posts = Post::search($this->search)
         ->withCount(['likes', 'comments'])
         ->orderBy($this->sortBy, $this->sortDir)
-        ->paginate(10);
+        ->paginate(5);
         $categories = Category::with('posts')->get();
         return view('livewire.sort-button',compact('posts', 'categories'));
     }

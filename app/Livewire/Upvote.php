@@ -14,7 +14,7 @@ class Upvote extends Component
 
 
    public function toggleUpvote(){
-
+        $totalLikesPerWeek = 5;
         if(auth()->guest()){
             return $this->redirect(route('login'));
         }
@@ -23,10 +23,19 @@ class Upvote extends Component
         if($user->hasUpvoted($this->post)){
             $user->likes()->detach($this->post);
             $user->decrement('reputation', 1);
+            $user->decrement('likes_counter', 1);
             return;
         }
-        $user->likes()->attach($this->post);
-        $user->increment('reputation', 1);
+        if($user->likes_counter < $totalLikesPerWeek){
+            $user->likes()->attach($this->post);
+            $user->increment('reputation', 1);
+            $user->increment('likes_counter', 1);
+        }else{
+            return redirect(route('home'))->with('message', 'Total amount of likes this week have been reached.');
+
+        }
+
+
    }
 
     public function render()

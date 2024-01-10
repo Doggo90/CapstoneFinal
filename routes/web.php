@@ -34,7 +34,7 @@ Route::get('/auth/google/redirect', [ProviderController::class,'redirect']);
 Route::get('/auth/google/callback', [ProviderController::class,'callback']);
 // END GOOGLE LOG IN API
 
-
+Route::get('/', App\Livewire\SortButton::class);
 Route::get('/', function () {return redirect('/dashboard');});
 Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
@@ -48,7 +48,9 @@ Route::get('/dashboard', [PostController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PostController::class, 'show'])->name('show');
 Route::get('/archives', [PostController::class, 'archives'])->name('archives');
 Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->name('categories');
+Route::get('/categories', [PostController::class, 'AllCategories'])->name('allcategories');
 Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->name('announcements');
+Route::get('/welcome', [PostController::class, 'firstLogin'])->name('welcome');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

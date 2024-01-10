@@ -12,16 +12,19 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <!-- Post title-->
-                                <h2 class="fw-bolder mb-1">{{$announcement->title}}</h2>
+                                <h2 class="fw-bolder mb-1">{{ $announcement->title }}</h2>
                                 {{-- <livewire:archive-button :announcement="$announcement" /> --}}
                                 <!-- Post meta content-->
-                                <div class="text-muted fst-italic mb-2">{{$announcement->created_at->diffForHumans()}} by
-                                    <a href="/profile/{{$announcement->author->id}}">{{$announcement->author->name}} <i class="fa fa-star"></i>{{$announcement->author->reputation}}</a>
+                                <div class="text-muted fst-italic mb-2">{{ $announcement->created_at->diffForHumans() }} by
+                                    <a href="/profile/{{ $announcement->author->id }}">{{ $announcement->author->name }} <i
+                                            class="fa fa-star"></i>{{ $announcement->author->reputation }}</a>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <p class="fs-5 mb-4">
-                                    {{$announcement->body}}
+                                    <img src="/storage/{{ $announcement->image }}" alt="" style="max-width: 60%">
+                                    <br><br><br>
+                                    {{ $announcement->body }}
                                 </p>
                             </div>
                             <br>
@@ -37,58 +40,48 @@
 
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND CATEGORIES ETC.) --}}
             <div class="col-lg-3 ">
-                @foreach ($announcements as $announcement )
-
-                <a href="/announcement/{{$announcement->id}}">
-                    <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
-                        <div class="card-header pb-0 pt-3 bg-transparent">
-                            <h4 class="text-capitalize">
-                                {{$announcement->title}}
-                                </h4    >
-                            <p class="text-sm mb-0">
-                                <i class="fa fa-clock text-success"></i>
-                                <span class="font-weight-bold">{{$announcement->created_at->diffForHumans()}}</span>
-                            </p>
+                @foreach ($announcements as $announcement)
+                    <a href="/announcement/{{ $announcement->id }}">
+                        <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
+                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                <h4 class="text-capitalize">
+                                    {{ $announcement->title }}
+                                </h4>
+                                <p class="text-sm mb-0">
+                                    <i class="fa fa-clock text-success"></i>
+                                    <span class="font-weight-bold">{{ $announcement->created_at->diffForHumans() }}</span>
+                                </p>
+                            </div>
+                            <div class="card-footer p-3">
+                                <small>Click here for info.</small>
+                            </div>
                         </div>
-                        <div class="card-footer p-3">
-                            <small>Click here for info.</small>
-                        </div>
-                    </div>
-                </a>
-                <br>
+                    </a>
+                    <br>
                 @endforeach
                 <br>
                 {{-- CATEGORIES CARD --}}
                 <div class="card">
-                    <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Categories</h6>
+                    <div class="card-header pb-0 p-3 text-center">
+                        <a href="/categories" class="mb-0">
+                            <br>
+                            <p class="h4 text-bold">Categories</p>
+                        </a>
                     </div>
                     <div class="card-body p-3">
-                        <ul class="list-group">
-                            @foreach ($categories1 as $category)
-                            <a href="/category/{{$category->id}}">
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">{{$category->name}}</h6>
-                                            <span class="text-xs">Contains {{$category->posts()->count()}} posts.</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </a>
-                            @endforeach
-                        </ul>
+
                     </div>
                 </div>
             </div>
-
-
         </div>
-        <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
-            </div>
-        </div><br><br><br>
-        @include('layouts.footers.auth.footer')
+
+
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-7 mb-lg-0 mb-4">
+        </div>
+    </div><br><br><br>
+    @include('layouts.footers.auth.footer')
     </div>
 @endsection
 
@@ -177,5 +170,3 @@
         });
     </script>
 @endpush
-
-

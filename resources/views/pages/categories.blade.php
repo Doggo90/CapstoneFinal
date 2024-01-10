@@ -4,64 +4,78 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
     <div class="container-fluid py-4">
         {{-- START FEATURED POSTS || ANNOUCEMENTS --}}
-
         {{-- END FEATURED POSTS || ANNOUCEMENTS --}}
-        <div class="row mt-8">
+        <div class="row mt-4">
+
             {{-- START POSTS LOOPINGS --}}
-            <div class="col-lg-9 mb-lg-0 mb-4">
-                @auth
-                <livewire:create-post />
-                @endauth
-                @livewire('sort-button', ['posts' => $allposts])
+            <div class="col-lg-12 mb-lg-0 mb-4">
+                <h4 class="mb-0 text-center">Categories</h4>
 
-            </div>
-            {{-- END POSTS LOOPINGS --}}
+                <div class="row">
+                    @foreach ($categories as $category)
+                        <div class="col-lg-4 mb-4">
+                            <a href="/category/{{ $category->id }}">
+                                <div class="card">
+                                    <div class="card-header pb-0 p-3 text-center">
+                                        <h6 class="mb-1 text-dark text-sm">{{ $category->name }}</h6>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <ul class="list-group">
 
-
-            {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND WHATNOT) --}}
-            <div class="col-lg-3 ">
-                @foreach ($announcements as $announcement )
-
-                <a href="/announcement/{{$announcement->id}}">
-                    <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
-                        <div class="card-header pb-0 pt-3 bg-transparent">
-                            <h4 class="text-capitalize">
-                                {{$announcement->title}}
-                                </h4    >
-                            <p class="text-sm mb-0">
-                                <i class="fa fa-clock text-success"></i>
-                                <span class="font-weight-bold">{{$announcement->created_at->diffForHumans()}}</span>
-                            </p>
+                                            <li
+                                                class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="d-flex flex-column text-center">
+                                                        <span class="text-xs">Contains {{ $category->posts()->count() }}
+                                                            posts.</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                            
+                            </a>
                         </div>
-                        <div class="card-footer p-3">
-                            <small>Click here for info.</small>
-                        </div>
-                    </div>
-                </a>
-                <br>
-                @endforeach
-
-                {{-- CATEGORIES CARD --}}
-                <div class="card">
-                    <div class="card-header pb-0 p-3 text-center">
-                        <a href="/categories" class="mb-0">
-                            <br>
-                           <p class="h4 text-bold" class="">Categories</p>
-                        </a>
-                    </div>
-                    <div class="card-body p-3">
-
-                    </div>
                 </div>
             </div>
-
-
+            @endforeach
         </div>
-        <div class="row mt-4">
-            <div class="col-lg-7 mb-lg-0 mb-4">
-            </div>
-        </div><br><br><br>
-        @include('layouts.footers.auth.footer')
+    </div>
+
+    {{-- END POSTS LOOPINGS --}}
+
+
+    {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND WHATNOT) --}}
+    {{-- <div class="col-lg-3 ">
+                @foreach ($announcements as $announcement)
+                    <a href="/announcement/{{ $announcement->id }}">
+                        <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
+                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                <h4 class="text-capitalize">
+                                    {{ $announcement->title }}
+                                </h4>
+                                <p class="text-sm mb-0">
+                                    <i class="fa fa-clock text-success"></i>
+                                    <span class="font-weight-bold">{{ $announcement->created_at->diffForHumans() }}</span>
+                                </p>
+                            </div>
+                            <div class="card-footer p-3">
+                                <small>Click here for info.</small>
+                            </div>
+                        </div>
+                    </a>
+                    <br>
+                @endforeach
+                <br>
+
+            </div> --}}
+
+
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-7 mb-lg-0 mb-4">
+        </div>
+    </div><br><br><br>
+    @include('layouts.footers.auth.footer')
     </div>
 @endsection
 

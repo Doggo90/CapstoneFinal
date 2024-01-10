@@ -27,17 +27,18 @@ class AnnouncementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->disk('upload')
+                    ->directory('prospects/json')
                     ->image(),
-                Forms\Components\TextInput::make('body')
+                Forms\Components\Textarea::make('body')
+                    ->rows(3)
                     ->required()
-                    ->maxLength(255),
+                    ->autosize(),
             ]);
     }
 

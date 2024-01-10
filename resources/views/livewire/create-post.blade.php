@@ -17,18 +17,18 @@
             <br>
             <form wire:submit="createPost" class="row g-3 mb-4" action="">
                 <div class="row mb-2 ms-auto">
-                        <input class="form-control mb-3" rows="3" name="title" id="title" wire:model="title" placeholder="Post Title. ">
+                        <input class="form-control mb-3" rows="3" name="title" id="title" wire:model.live="title" placeholder="Post Title. ">
                             @error('title')
                                 <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
 
-                            <input class="form-control mb-3" rows="3" name="tags" id="tags" wire:model="tags" placeholder="Tags(Comma Separated)">
+                            <input class="form-control mb-3" rows="3" name="tags" id="tags" wire:model.live="tags" placeholder="Tags(Comma Separated)">
                             @error('tags')
                                 <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                 </div>
                 <div class="row mb-2 ms-auto">
-                    <textarea class="form-control mb-3" rows="3" name="body" id="body" wire:model="body" placeholder="Post Context"></textarea>
+                    <textarea class="form-control mb-3" rows="3" name="body" id="body" wire:model.live="body" placeholder="Post Context"></textarea>
                         @error('body')
                             <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
                         @enderror
@@ -52,17 +52,17 @@
                             </a>
                         </div>
                         <div class="col">
-                            <input class="form-control" rows="3" name="title" id="title" wire:model="title" placeholder="Post Title. ">
+                            <input class="form-control" rows="3" name="title" id="title" wire:model.live="title" placeholder="Post Title. ">
                                 @error('title')
                                     <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
                                 @enderror
-                                <input class="form-control" rows="3" name="tags" id="tags" wire:model="tags" placeholder="Tags(Comma Separated)">
+                                <input class="form-control" rows="3" name="tags" id="tags" wire:model.live="tags" placeholder="Tags(Comma Separated)">
                                 @error('tags')
                                     <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
                                 @enderror
                         </div>
                         <div class="col">
-                            <textarea class="form-control" rows="3" name="body" id="body" wire:model="body" placeholder="Post Context"></textarea>
+                            <textarea class="form-control" rows="3" name="body" id="body" wire:model.live="body" placeholder="Post Context"></textarea>
                                 @error('body')
                                     <p class="p text-red-500 text-xs mt-1">{{$message}}</p>
                                 @enderror

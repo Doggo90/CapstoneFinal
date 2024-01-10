@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -45,6 +46,15 @@ class User extends Authenticatable implements FilamentUser
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function sessionCheck(){
+        if (Auth::check()) {
+            return optional(auth()->user())->status == 'active';
+        } else {
+            return false;
+        }
+    }
+
+
 
     public function scopeFilter($query, $value){
 
@@ -76,7 +86,7 @@ class User extends Authenticatable implements FilamentUser
     }
     public function organizations(): belongsTo
     {
-        return $this->belongsTo(Organization::class, 'organization_id');       
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
     public function canAccessPanel(Panel $panel): bool
     {
@@ -85,5 +95,9 @@ class User extends Authenticatable implements FilamentUser
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+    public function totalUpvotes()
+    {
+        return $this->likes()->count(5);
     }
 }

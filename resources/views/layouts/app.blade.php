@@ -19,7 +19,8 @@
     <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('assets/css/argon-dashboard.css')}}" rel="stylesheet" />
-
+    @livewireStyles
+    @vite('resources/css/app.css')
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -32,9 +33,7 @@
             <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
                 <span class="mask bg-success opacity-6"></span></div>
             <main class="main-content border-radius-lg">
-
                 @yield('content')
-
             </main>
         @endauth
 
@@ -58,6 +57,8 @@
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{asset('assets/js/argon-dashboard.js')}}"></script>
     @stack('js');
+    @livewireScripts
+
 </body>
 
 </html>
