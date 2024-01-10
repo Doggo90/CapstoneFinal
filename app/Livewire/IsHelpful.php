@@ -10,6 +10,12 @@ class IsHelpful extends Component
     public function toggleHelpful(){
         $this->comment->is_helpful = !$this->comment->is_helpful;
         $this->comment->save();
+        if($this->comment->is_helpful == 1){
+            toastr()->success('Marked as helpful!');
+        }else
+        {
+            toastr()->success('Unmarked as helpful!');
+        }
    }
     public function render()
     {

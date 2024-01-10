@@ -21,17 +21,22 @@ class CommentSection extends Component
         $this->validate([
             'comment_body' => 'required | min:2'
         ]);
-
-        $comment = Comment::create([
-            'user_id' => auth()->user()->id,
-            'post_id' => $this->post->id,
-            'comment_body' => $this->comment_body
-        ]);
-        $this->dispatch('comment-created', $comment);
-        if(auth()->user()->email != $this->post->author->email){
-            $this->post->author->notify(new CommentNotif($comment));
-        }
-        $this->comment_body = '';
+        $comments2 = Comment::where('post_id', $this->post->id)->get();
+            if ($comments2->where('user_id', auth()->user()->id)->count() > 0) {
+                toastr()->error('You already commented on this post');
+            }else{
+                $comment = Comment::create([
+                    'user_id' => auth()->user()->id,
+                    'post_id' => $this->post->id,
+                    'comment_body' => $this->comment_body
+                ]);
+                $this->dispatch('comment-created', $comment);
+                if(auth()->user()->email != $this->post->author->email){
+                    $this->post->author->notify(new CommentNotif($comment));
+                }
+                $this->comment_body = '';
+                toastr()->success('Comment posted successfully!');
+            }
 
     }
     #[On('comment-created')]

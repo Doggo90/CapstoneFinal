@@ -27,6 +27,7 @@ class CreatePost extends Component
             'user_id' => auth()->user()->id,
             'comments_count' => 0,
         ]);
+        toastr()->success('Post Created Successfully!');
         $this->title = '';
         $this->body = '';
         $this->tags = '';
