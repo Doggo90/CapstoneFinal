@@ -88,7 +88,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $categories = Post::with('category')->find($post->id);
+        $post1 = Post::with('categories')->find($post->id);
         $users = User::all();
         $post = Post::with('author')->find($post->id);
         $announcements = Announcement::all();
@@ -99,7 +99,7 @@ class PostController extends Controller
             ->where('post_id', $postIds)   // Replace $postId with the actual post ID
             ->get();
 
-        return view('pages.show', compact('users','comments', 'post', 'categories', 'announcements','categories1'));
+        return view('pages.show', compact('users','comments', 'post', 'post1', 'announcements','categories1'));
     }
 
     /**

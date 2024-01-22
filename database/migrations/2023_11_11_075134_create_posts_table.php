@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('logo')->nullable();
-            $table->string('body');
-            $table->string('tags');
+            $table->string('body')->nullable();
+            $table->string('tags')->nullable();
             $table->boolean('is_archived')->default(false);
             $table->integer('upvote')->nullable()->default(0);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();

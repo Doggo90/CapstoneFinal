@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserResource extends Resource
 {
@@ -65,6 +66,9 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->copyable()
+                    ->copyMessage('Email address copied')
+                    ->copyMessageDuration(1500)
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('organizations.nickname')
@@ -72,6 +76,9 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->copyable()
+                    ->copyMessage('Email address copied')
+                    ->copyMessageDuration(1500)
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('phone')
@@ -129,14 +136,20 @@ class UserResource extends Resource
                         ->label('Reset Reputation')
                         ->icon('heroicon-o-arrow-path')
                         ->color('warning')
-                        ->action(function(User $users){
-                            DB::table('users')->update(['reputation' => 0]);
-                            Notification::make()
-                                ->title('Reputation Reset Success!')
-                                ->body('Selected users&rsquo; reputations have been reset.')
-                                ->icon('heroicon-o-arrow-path')
-                                ->color('success')
-                                ->send();
+                        ->deselectRecordsAfterCompletion()
+                        ->action(function (Collection $records) {
+                            $records->each(function ($record){
+                                $record->reputation = 0;
+                                $record->save();
+                                Notification::make()
+                                    ->title(__('Reset Successfully!'))
+                                    ->body(__('Selected users reputation have been reset.'))
+                                    ->icon('heroicon-s-check')
+                                    ->color('success')
+                                    ->send();
+                            });
+
+
 
                         }),
                 ]),
@@ -157,5 +170,9 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role == 'admin';
     }
 }

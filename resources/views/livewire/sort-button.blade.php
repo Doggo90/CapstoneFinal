@@ -1,12 +1,16 @@
 <div>
-    @livewireStyles
+    <style>
+        .custom-button{
+            margin: 0;
+        }
+    </style>
     <div class="container-fluid d-flex justify-content-center">
         <div x-data="{ query: '' }" id="search-box" class="container-fluid py-auto">
             <div class="input-group">
                 <input class="form-control" x-model="query" type="text" wire:model.live.debounce.300ms="search"
                     name="search" id="search" placeholder="Search here...">
                 <button x-on:click="$dispatch('search', { search: query })" type="button"
-                    class="btn btn-success py-auto">
+                    class="btn btn-success py-auto custom-button">
                     Search
                 </button>
             </div>
@@ -29,7 +33,7 @@
 
         <div class="card-body">
             @foreach ($posts as $post)
-                @if ($post->is_archived == 0)
+                @if ($post->is_archived == 0 && $post->is_approved)
                     <a href="/post/{{ $post->id }}">
                         <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
                             <div class="card-header pb-0 pt-3 bg-transparent">

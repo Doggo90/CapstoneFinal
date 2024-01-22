@@ -1,6 +1,12 @@
 <div class="card mx-5">
+    <style>
+        .custom-button{
+            margin: 0;
+            position: relative;
+        }
+    </style>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button type="button" class="btn btn-info custom-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         What's on your mind?
     </button>
 
@@ -18,6 +24,7 @@
                 <div class="modal-body">
                     <br>
                     <form wire:submit.prevent="createPost" class="row g-3 mb-4" action="" wire:ignore>
+                        @csrf
                         <div class="row mb-2 ms-auto">
                             <input class="form-control mb-3" rows="3" name="title" id="title"
                                 wire:model="title" placeholder="Post Title. ">
@@ -30,6 +37,17 @@
                             @error('tags')
                                 <p class="p text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
+
+                            <select class="form-select mb-3" multiple aria-label="multiple select example"name="selectedCategories" id="selectedCategories" wire:model="selectedCategories" multiple>
+                                <option disabled selected>Select a category...</option>
+                                @foreach (\App\Models\Category::all() as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }} </option>
+                                @endforeach
+                            </select>
+                            @error('selectedCategories')
+                                <p class="p text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+
                         </div>
                         <div class="row mb-2 ms-auto">
                             <textarea class="form-control mb-3" rows="3" name="body" id="body" wire:model="body"

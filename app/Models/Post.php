@@ -13,8 +13,8 @@ class Post extends Model
     use HasFactory;
 
 
-    protected $fillable = ['title', 'body', 'tags', 'user_id' , 'is_archived','comments_count'];
-
+    // protected $fillable = ['title', 'body', 'tags', 'user_id' , 'is_archived','comments_count', 'selectedCategories'];
+    protected $guarded = [];
     public function scopeSearch($query, $value){
         // $query-> where('tags', 'like', "%{{$value}}%");
 
@@ -52,7 +52,7 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
-    public function category(): belongsToMany
+    public function categories(): belongsToMany
     {
         return $this->belongsToMany(Category::class, 'post_category')->withTimestamps();
     }

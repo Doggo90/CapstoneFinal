@@ -13,6 +13,18 @@
                             <div class="card-header">
                                 <!-- Post title-->
                                 <h2 class="fw-bolder mb-1">{{$post->title}}</h2>
+                                {{-- @php
+                                    dd($post1);
+                                @endphp --}}
+                                <ul class="flex list-inline">
+                                    @foreach($post1->categories as $category)
+                                    <li class="badge bg-secondary text-decoration-none link-light list-inline-item">
+                                        <a href="/category/{{$category->id}}" style="text-decoration: none; color:white; ">
+                                        {{$category->name}}
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
                                 <livewire:archive-button :post="$post" />
                                 <!-- Post meta content-->
                                 <div class="text-muted fst-italic mb-2">{{$post->created_at->diffForHumans()}} by
@@ -21,15 +33,7 @@
                                 </div>
                                 <!-- Post categories-->
                                     {{-- <x-post-tags :tagsCsv="$post->tags"/> --}}
-                                <ul class="flex list-inline">
-                                    @foreach($categories->category as $category)
-                                    <li class="badge bg-secondary text-decoration-none link-light list-inline-item">
-                                        <a href="/category/{{$category->id}}" style="text-decoration: none; color:white; ">
-                                        {{$category->name}}
-                                        </a>
-                                    </li>
-                                    @endforeach
-                                </ul>
+
                             </div>
                             <div class="card-body">
                                 <p class="fs-5 mb-4">
@@ -57,38 +61,8 @@
 
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND CATEGORIES ETC.) --}}
             <div class="col-lg-3 ">
-                @foreach ($announcements as $announcement )
-
-                <a href="/announcement/{{$announcement->id}}">
-                    <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
-                        <div class="card-header pb-0 pt-3 bg-transparent">
-                            <h4 class="text-capitalize">
-                                {{$announcement->title}}
-                                </h4    >
-                            <p class="text-sm mb-0">
-                                <i class="fa fa-clock text-success"></i>
-                                <span class="font-weight-bold">{{$announcement->created_at->diffForHumans()}}</span>
-                            </p>
-                        </div>
-                        <div class="card-footer p-3">
-                            <small>Click here for info.</small>
-                        </div>
-                    </div>
-                </a>
-                <br>
-                @endforeach
-                {{-- CATEGORIES CARD --}}
-                <div class="card">
-                    <div class="card-header pb-0 p-3 text-center">
-                        <a href="/categories" class="mb-0">
-                            <br>
-                           <p class="h4 text-bold">Categories</p>
-                        </a>
-                    </div>
-                    <div class="card-body p-3">
-
-                    </div>
-                </div>
+                <br><br><br><br><br>
+                @include('components.announcements')
             </div>
 
 

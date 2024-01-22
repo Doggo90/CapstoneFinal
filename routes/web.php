@@ -46,7 +46,7 @@ Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('gue
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [PostController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PostController::class, 'show'])->name('show');
-Route::get('/archives', [PostController::class, 'archives'])->name('archives');
+Route::get('/archives', [PostController::class, 'archives'])->middleware('auth')->name('archives');
 Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->name('categories');
 Route::get('/categories', [PostController::class, 'AllCategories'])->name('allcategories');
 Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->name('announcements');

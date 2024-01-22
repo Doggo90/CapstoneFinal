@@ -5,112 +5,77 @@
     <div class="container-fluid py-4">
         {{-- START FEATURED POSTS || ANNOUCEMENTS --}}
         <div class="row">
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <a href="/post/{{$mostUpvotes->id}}">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Most Upvoted Post</p>
+            <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
+                @php
+                    use App\Models\Post;
+                    $mostLikedPost = Post::withCount('likes')
+                        ->where('is_archived', false)
+                        ->orderBy('likes_count', 'desc')
+                        ->first();
+                    // dd($mostLikedPost);
+                @endphp
+                <a href="/post/{{ $mostLikedPost->id }}">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Most Upvoted Post</p>
+                                        <h5 class="font-weight-bolder">
+                                            {{ $mostLikedPost->title }}
 
-                                    <h5 class="font-weight-bolder">
-                                        {{ \Illuminate\Support\Str::limit($mostUpvotes->title, $limit = 15, $end = '...') }}
-
-                                    </h5>
-                                    <small>by: {{$mostUpvotes->author->name}}</small>
-                                    <p class="mb-0">
-                                        <i class="fa fa-arrow-up text-success me-2"></i>
-                                        <span class="font-weight-bold">{{$mostUpvotes->likes_count}}</span>
-                                    </p>
+                                        </h5>
+                                        <p class="mb-0">
+                                            <i class="fa fa-arrow-up text-success me-2"></i>
+                                            <span class="font-weight-bold">{{ $mostLikedPost->likes()->count() }}</span>
+                                        </p>
+                                    </div>
                                 </div>
-                            </a>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-success shadow-primary text-center rounded-circle">
+                                        <i class="ni ni-like-2 text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <a href="/post/{{$mostComments->id}}">
+            <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
+                @php
+                    $hottestPost = Post::withCount('comments')
+                        ->where('is_archived', false)
+                        ->orderBy('comments_count', 'desc')
+                        ->first();
+                    // dd($hottestPost);
+                @endphp
+                <a href="/post/{{ $hottestPost->id }}">
+                    <div class="card">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
                                     <div class="numbers">
                                         <p class="text-sm mb-0 text-uppercase font-weight-bold">HOTTEST POST</p>
                                         <h5 class="font-weight-bolder">
-                                            {{ \Illuminate\Support\Str::limit($mostComments->title, $limit = 15, $end = '...') }}
+                                            {{ $hottestPost->title }}
                                         </h5>
-                                        <small>by: {{$mostUpvotes->author->name}}</small>
                                         <p class="mb-0">
                                             <i class="fa fa-comment text-success me-2"></i>
-                                            <span class="font-weight-bold">{{$mostComments->comments_count}}</span>
+                                            <span class="font-weight-bold">{{ $hottestPost->comments()->count() }}</span>
                                         </p>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
-                                    <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div
+                                        class="icon icon-shape bg-gradient-success shadow-danger text-center rounded-circle">
+                                        <i class="ni ni-chat-round text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
-                                    <h5 class="font-weight-bolder">
-                                        +3,462
-                                    </h5>
-                                    <p class="mb-0">
-                                        <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                        since last quarter
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
-                                    <h5 class="font-weight-bolder">
-                                        $103,430
-                                    </h5>
-                                    <p class="mb-0">
-                                        <span class="text-success text-sm font-weight-bolder">+5%</span> than last month
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
         {{-- END FEATURED POSTS || ANNOUCEMENTS --}}
@@ -119,34 +84,38 @@
             {{-- START POSTS LOOPINGS --}}
             <div class="col-lg-9 mb-lg-0 mb-4">
                 <livewire:create-post />
-                @foreach($categories->posts as $category)
-                @if ($category->is_archived == 0)
-                    <a href="/post/{{$category->id}}">
-                        <div class="card z-index-2" style="max-height: 200px; overflow: hidden;"    >
-                            <div class="card-header pb-0 pt-3 bg-transparent">
-                                <h6 class="text-capitalize">
-                                    <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;" src="{{ (!empty($category->author->photo)) ? url($category->author->photo) : url('/img/no-image.png')}}" alt="profile">
-                                    {{$category->author->name}}</h6>
-                                <p class="text-sm mb-0">
-                                    <i class="fa fa-clock text-success"></i>
-                                    <span class="font-weight-bold"> {{$category->created_at->diffForHumans()}}</span>
-                                </p>
+                <br>
+                @foreach ($categories->posts as $category)
+                    @if ($category->is_archived == 0)
+                        <a href="/post/{{ $category->id }}">
+                            <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
+                                <div class="card-header pb-0 pt-3 bg-transparent">
+                                    <h6 class="text-capitalize">
+                                        <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;"
+                                            src="{{ !empty($category->author->photo) ? url($category->author->photo) : url('/img/no-image.png') }}"
+                                            alt="profile">
+                                        {{ $category->author->name }}
+                                    </h6>
+                                    <p class="text-sm mb-0">
+                                        <i class="fa fa-clock text-success"></i>
+                                        <span class="font-weight-bold"> {{ $category->created_at->diffForHumans() }}</span>
+                                    </p>
+                                </div>
+                                <div class="card-body p-3" style="max-height: 100px; overflow: hidden;">
+                                    <h4 class="text-uppercase fw-bold">{{ $category->title }}</h4>
+                                </div>
+                                <div class="card-footer p-3" style="max-height: 100px;">
+                                    <p>
+                                        <i class="fa fa-arrow-up text-success me-2"></i>
+                                        <span class="font-weight-bold">{{ $category->likes()->count() }}</span>
+                                        <i class="fa fa-comment text-success ms-3 me-2"></i>
+                                        <span class="font-weight-bold">{{ $category->comments_count }}</span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="card-body p-3" style="max-height: 100px; overflow: hidden;">
-                                <h4 class="text-uppercase fw-bold">{{$category->title}}</h4>
-                            </div>
-                            <div class="card-footer p-3" style="max-height: 100px;">
-                                <p>
-                                    <i class="fa fa-arrow-up text-success me-2"></i>
-                                    <span class="font-weight-bold">{{$category->likes()->count()}}</span>
-                                    <i class="fa fa-comment text-success ms-3 me-2"></i>
-                                    <span class="font-weight-bold">{{$category->comments_count}}</span>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                    <br>
-                @endif
+                        </a>
+                        <br>
+                    @endif
                 @endforeach
             </div>
             {{-- END POSTS LOOPINGS --}}
@@ -154,49 +123,8 @@
 
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND WHATNOT) --}}
             <div class="col-lg-3 ">
-                @foreach ($announcements as $announcement )
-
-                <a href="/announcement/{{$announcement->id}}">
-                    <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
-                        <div class="card-header pb-0 pt-3 bg-transparent">
-                            <h4 class="text-capitalize">
-                                {{$announcement->title}}
-                                </h4    >
-                            <p class="text-sm mb-0">
-                                <i class="fa fa-clock text-success"></i>
-                                <span class="font-weight-bold">{{$announcement->created_at->diffForHumans()}}</span>
-                            </p>
-                        </div>
-                        <div class="card-footer p-3">
-                            <small>Click here for info.</small>
-                        </div>
-                    </div>
-                </a>
                 <br>
-                @endforeach
-                <br>
-                {{-- CATEGORIES CARD --}}
-                <div class="card">
-                    <div class="card-header pb-0 p-3 text-center">
-                        <h4 class="mb-0">Categories</h4>
-                    </div>
-                    <div class="card-body p-3">
-                        <ul class="list-group">
-                            @foreach ($categories1 as $category1)
-                            <a href="/category/{{$category1->id}}">
-                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                    <div class="d-flex align-items-center">
-                                        <div class="d-flex flex-column">
-                                            <h6 class="mb-1 text-dark text-sm">{{$category1->name}}</h6>
-                                            <span class="text-xs">Contains {{$category1->posts()->count()}} posts.</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </a>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+                @include('components.announcements')
             </div>
 
 

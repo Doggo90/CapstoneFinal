@@ -49,24 +49,29 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('post.title')
-                    ->numeric()
+                    ->words(3)
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('comment_body')
+                    ->words(3)
+                    ->searchable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_helpful')
-                ->sortable()
-                ->boolean(),
+                    ->sortable()
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
