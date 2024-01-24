@@ -1,4 +1,5 @@
 <section class="mb-5">
+
     <div class="card bg-light">
         <div class="card-body">
             <!-- Comment form-->
@@ -13,9 +14,12 @@
                     </div>
                     <div class="col position-relative">
                         <form wire:submit="createComment">
-                            <textarea class="form-control" rows="2" name="comment_body" id="comment_body" wire:model.live="comment_body"
-                                placeholder="Join the discussion and leave a comment!" wire:keydown.enter="createComment"></textarea>
-                            <button type="submit"
+                            @csrf
+                            <textarea
+                            class="form-control" rows="2" name="comment_body" id="comment_body" wire:model.live="comment_body"
+                            placeholder="Join the discussion and leave a comment!" wire:keydown.enter="createComment">
+                            </textarea>
+                                <button type="submit"
                                 class="btn btn-success position-absolute bottom-0 end-0 mb-2 me-4 justify-items-center">
                                 <i class="fa fa-paper-plane"></i>
                             </button>
@@ -23,11 +27,16 @@
                         @error('comment_body')
                             <p class="p text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
-
-
                     </div>
-
-
+                    {{-- <div class="col position-relative" x-data="{open: false, query: ''}">
+                        <input type="text" x-model="query" name="query" id="query" @keyup.slash="open = true"  @keydown.escape="open = false" x-if="open" wire:model.live="search">
+                        <button x-on:click="open = !open, $dispatch('search', { search: query }, console.log(query))">search</button>
+                        <ul x-show="open">
+                            @foreach($users as $user)
+                                <li>{{ $user->name }}</li>
+                            @endforeach
+                        </ul>
+                    </div> --}}
                     {{-- <input type="hidden" name="post_id" value="{{ $this->post->id }}">
                                 <input type="hidden" name="user_id" value="{{ $this->$post->user_id }}"> --}}
                     <br>
@@ -148,4 +157,13 @@
             </div> --}}
             </div>
         </div>
+        <script>
+            // Watch for changes in the query and remove the first slash
+            $watch('query', (value) => {
+                if (value.startsWith('/')) {
+                    query = value.substring(1);
+                }
+            });
+        </script>
 </section>
+

@@ -5,15 +5,18 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\User;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\On;
 use App\Notifications\CommentNotif;
+use Livewire\Attributes\Url;
 
 class CommentSection extends Component
 {
     public Post $post;
 
     public $comment_body = '';
+    public $search = '';
 
     public function createComment()
     {
@@ -40,15 +43,9 @@ class CommentSection extends Component
     #[On('comment-created')]
     public function render()
     {
+        $users = User::where('name', 'like', '%' . $this->search . '%')->get();
         $comments = Comment::all();
         $flag = false;
-        // foreach ($comments as $comment) {
-        //     if ($comment->is_helpful == 1) {
-        //         $flag = true;
-        //     } else {
-        //         $flag = false;
-        //     }
-        // }
-        return view('livewire.comment-section', compact('comments', 'flag'));
+        return view('livewire.comment-section', compact('comments', 'flag', 'users'));
     }
 }
