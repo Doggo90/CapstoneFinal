@@ -4,14 +4,21 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
     <div class="container-fluid py-4">
         {{-- START FEATURED POSTS || ANNOUCEMENTS --}}
+
         <div class="row">
-            <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
+            <div class="col-lg-3">
+                @include('components.announcements')
                 @php
                     use App\Models\Post;
                     $mostLikedPost = Post::withCount('likes')
                         ->where('is_archived', false)
                         ->orderBy('likes_count', 'desc')
                         ->first();
+                    $hottestPost = Post::withCount('comments')
+                        ->where('is_archived', false)
+                        ->orderBy('comments_count', 'desc')
+                        ->first();
+                    // dd($hottestPost);
                     // dd($mostLikedPost);
                 @endphp
                 <a href="/post/{{ $mostLikedPost->id }}">
@@ -41,15 +48,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
-            <div class="col-xl-6 col-sm-12 mb-xl-0 mb-4">
-                @php
-                    $hottestPost = Post::withCount('comments')
-                        ->where('is_archived', false)
-                        ->orderBy('comments_count', 'desc')
-                        ->first();
-                    // dd($hottestPost);
-                @endphp
+                <br>
                 <a href="/post/{{ $hottestPost->id }}">
                     <div class="card">
                         <div class="card-body p-3">
@@ -76,17 +75,11 @@
                         </div>
                     </div>
                 </a>
+                <br>
             </div>
-        </div>
-        {{-- END FEATURED POSTS || ANNOUCEMENTS --}}
-        <div class="row">
-            <div class="col-lg-3 mt-5">
-                @include('components.announcements')
-            </div>
-
-            <div class="col-lg-6 mb-lg-0 mb-4 mt-2">
+            {{-- END FEATURED POSTS || ANNOUCEMENTS --}}
+            <div class="col-lg-6 mb-lg-0 mb-4">
                 @auth
-                <br><br><br>
                     <livewire:create-post />
                 @endauth
                 {{-- START POSTS LOOPINGS --}}
@@ -96,20 +89,22 @@
             </div>
 
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND WHATNOT) --}}
-            <div class="col-lg-3 mt-4">
-                <br>
+            <div class="col-lg-3">
                 @include('components.categories')
                 <div class="card mt-2 ">
                     <div class="card-header">
                         <h5 class="text-center">Rankings</h5>
                     </div>
                     @foreach ($topRep as $top)
-                    <a href="/profile/{{ $top->id }}">
-                        <div class="card-body d-flex justify-content-between pb-0" style="padding-bottom: 0; padding-top: 0;">
-                            <p class="text-bold">{{ \Illuminate\Support\Str::limit(explode(' ', $top->name)[0], $limit = 15, $end = '...') }}</p>
-                            <p class="text-bold">{{ $top->reputation }}</p>
-                        </div>
-                    </a>
+                        <a href="/profile/{{ $top->id }}">
+                            <div class="card-body d-flex justify-content-between pb-0"
+                                style="padding-bottom: 0; padding-top: 0;">
+                                <p class="text-bold">
+                                    {{ \Illuminate\Support\Str::limit(explode(' ', $top->name)[0], $limit = 15, $end = '...') }}
+                                </p>
+                                <p class="text-bold">{{ $top->reputation }}</p>
+                            </div>
+                        </a>
                     @endforeach
                 </div>
 

@@ -3,7 +3,7 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
     <div class="container-fluid py-4">
-        <div class="row mt-4">
+        <div class="row">
 
             {{-- START POSTS LOOPINGS --}}
             <div class="col-lg-9 mb-lg-0 mb-4">
@@ -58,19 +58,16 @@
             </div>
             {{-- END POSTS LOOPINGS --}}
 
-
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND CATEGORIES ETC.) --}}
-            <div class="col-lg-3 ">
-                <br><br><br><br><br>
+            <div class="col-lg-3">
                 @include('components.announcements')
             </div>
 
 
         </div>
-        <div class="row mt-4">
+        <div class="row">
             <div class="col-lg-7 mb-lg-0 mb-4">
             </div>
-        </div><br><br><br>
         @include('layouts.footers.auth.footer')
     </div>
 @endsection

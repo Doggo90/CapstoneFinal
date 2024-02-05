@@ -44,9 +44,10 @@
                                         {{ $post->author->name }}
                                     </p>
                                 </div>
-                                <div class="card-body d-flex justify-content-between mx-4 mb-4" style="max-height: 100px; overflow: hidden;">
+                                <div class="card-body d-flex justify-content-between mx-4 mb-4" style="max-height: 100px; overflow: hidden; margin-bottom: 0; margin-left: 0; margin-right: 0;">
                                     <div>
-                                        <p class="text-uppercase fw-bold">{{ $post->title }}</p>
+                                        <p class="text-uppercase fw-bold">
+                                            {{ \Illuminate\Support\Str::limit(explode('å', $post->title)[0], $limit = 40, $end = '...') }}</p>
                                     </div>
                                     <div >
                                         <p>
@@ -57,14 +58,13 @@
                                     </p>
                                     </div>
                                 </div>
-                                <div class="card-footer d-flex justify-content-start p-3 mx-4 my-2" style="max-height: 100px;">
+                                <div class="card-footer d-flex justify-content-start p-3 mx-4 my-2" style="max-height: 100px; padding-top: 0; margin-top: 0;">
                                     <p class="text-sm mb-0">
                                         <i class="fa fa-clock text-success"></i>
                                         <span class="font-weight-bold"> {{ $post->created_at->diffForHumans() }}</span>
                                     </p>
                                 </div>
                             </div>
-
                     </a>
                     <br>
                 @endif
