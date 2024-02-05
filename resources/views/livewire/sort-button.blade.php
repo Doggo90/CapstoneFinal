@@ -1,6 +1,6 @@
 <div>
     <style>
-        .custom-button{
+        .custom-button {
             margin: 0;
         }
     </style>
@@ -26,40 +26,45 @@
             <label class="btn btn-outline-success" for="btnradio2" wire:click="setSortBy('likes_count')">Upvotes</label>
 
             <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-            <label class="btn btn-outline-success" for="btnradio3" wire:click="setSortBy('comments_count')">Comments</label>
+            <label class="btn btn-outline-success" for="btnradio3"
+                wire:click="setSortBy('comments_count')">Comments</label>
         </div>
     </div>
     <div class="card">
-
         <div class="card-body">
             @foreach ($posts as $post)
                 @if ($post->is_archived == 0 && $post->is_approved)
                     <a href="/post/{{ $post->id }}">
-                        <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
-                            <div class="card-header pb-0 pt-3 bg-transparent">
-                                <h6 class="text-capitalize ">
-                                    <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;"
-                                        src="{{ !empty($post->author->photo) ? url($post->author->photo) : url('/img/no-image.png') }}"
-                                        alt="profile">
-                                    {{ $post->author->name }}
-                                </h6>
-                                <p class="text-sm mb-0">
-                                    <i class="fa fa-clock text-success"></i>
-                                    <span class="font-weight-bold"> {{ $post->created_at->diffForHumans() }}</span>
-                                </p>
+                            <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
+                                <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-start mx-3">
+                                    <p class="text-capitalize text-bold">
+                                        <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;"
+                                            src="{{ !empty($post->author->photo) ? url($post->author->photo) : url('/img/no-image.png') }}"
+                                            alt="profile">
+                                        {{ $post->author->name }}
+                                    </p>
+                                </div>
+                                <div class="card-body d-flex justify-content-between mx-4 mb-4" style="max-height: 100px; overflow: hidden;">
+                                    <div>
+                                        <p class="text-uppercase fw-bold">{{ $post->title }}</p>
+                                    </div>
+                                    <div >
+                                        <p>
+                                        <i class="fa fa-arrow-up text-success me-3"></i>
+                                        <span class="font-weight-bold">{{ $post->likes()->count() }}</span>
+                                        <i class="fa fa-comment text-success ms-3 me-3"></i>
+                                        <span class="font-weight-bold">{{ $post->comments->count() }}</span>
+                                    </p>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-start p-3 mx-4 my-2" style="max-height: 100px;">
+                                    <p class="text-sm mb-0">
+                                        <i class="fa fa-clock text-success"></i>
+                                        <span class="font-weight-bold"> {{ $post->created_at->diffForHumans() }}</span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="card-body p-3" style="max-height: 100px; overflow: hidden;">
-                                <h4 class="text-uppercase fw-bold">{{ $post->title }}</h4>
-                            </div>
-                            <div class="card-footer p-3" style="max-height: 100px;">
-                                <p>
-                                    <i class="fa fa-arrow-up text-success me-2"></i>
-                                    <span class="font-weight-bold">{{ $post->likes()->count() }}</span>
-                                    <i class="fa fa-comment text-success ms-3 me-2"></i>
-                                    <span class="font-weight-bold">{{ $post->comments->count() }}</span>
-                                </p>
-                            </div>
-                        </div>
+
                     </a>
                     <br>
                 @endif

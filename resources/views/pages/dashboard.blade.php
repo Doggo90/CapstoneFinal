@@ -80,8 +80,13 @@
         </div>
         {{-- END FEATURED POSTS || ANNOUCEMENTS --}}
         <div class="row">
-            <div class="col-lg-9 mb-lg-0 mb-4 mt-2">
+            <div class="col-lg-3 mt-5">
+                @include('components.announcements')
+            </div>
+
+            <div class="col-lg-6 mb-lg-0 mb-4 mt-2">
                 @auth
+                <br><br><br>
                     <livewire:create-post />
                 @endauth
                 {{-- START POSTS LOOPINGS --}}
@@ -91,9 +96,23 @@
             </div>
 
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND WHATNOT) --}}
-            <div class="col-lg-3 ">
+            <div class="col-lg-3 mt-4">
                 <br>
-                @include('components.announcements')
+                @include('components.categories')
+                <div class="card mt-2 ">
+                    <div class="card-header">
+                        <h5 class="text-center">Rankings</h5>
+                    </div>
+                    @foreach ($topRep as $top)
+                    <a href="/profile/{{ $top->id }}">
+                        <div class="card-body d-flex justify-content-between pb-0" style="padding-bottom: 0; padding-top: 0;">
+                            <p class="text-bold">{{ \Illuminate\Support\Str::limit(explode(' ', $top->name)[0], $limit = 15, $end = '...') }}</p>
+                            <p class="text-bold">{{ $top->reputation }}</p>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+
             </div>
         </div>
         <div class="row">

@@ -30,19 +30,19 @@ class PostController extends Controller
         $mostComments = Post::all()
         ->sortByDesc('comments_count')
         ->first();
+        $topRep = User::orderByDesc('reputation')->take(3)->get();
+        // dd($topRep);
 
-
-        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories'));
+        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories', 'topRep'));
     }
 
     public function AnnouncementShow(Announcement $announcement){
         $announcements = Announcement::all();
-        $categories1 = Category::all();
         $users = User::all();
         $announcement = Announcement::with('author')->find($announcement->id);
 
 
-        return view('pages.announcement', compact('users', 'announcement', 'announcements', 'categories1'));
+        return view('pages.announcement', compact('users', 'announcement', 'announcements'));
     }
 
     /**

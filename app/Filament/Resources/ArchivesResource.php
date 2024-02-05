@@ -2,11 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
+use App\Filament\Resources\ArchivesResource\Pages;
+use App\Filament\Resources\ArchivesResource\RelationManagers;
 use App\Models\Post;
 use App\Models\Category;
-use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -14,26 +13,19 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Number;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
-use Gate;
 
-class PostResource extends Resource
+class ArchivesResource extends Resource
 {
     protected static ?string $model = Post::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Posts Management';
 
-    protected static ?string $navigationLabel = 'Posts';
+    protected static ?string $navigationLabel = 'Archives';
 
-    protected static ?int $navigationSort = 1;
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::where('is_approved', 0)->count();
-    }
+    protected static ?int $navigationSort = 4;
 
 
     public static function form(Form $form): Form
@@ -44,34 +36,20 @@ class PostResource extends Resource
                 Forms\Components\Section::make('Details')
 
                     ->schema([
-                        Forms\Components\TextInput::make('title')
-                        ->required()
-                        ->hidden(fn (string $operation): bool => $operation === 'edit'),
-
-                        Forms\Components\TextInput::make('title')
-                        ->disabled()
-                        ->hidden(fn (string $operation): bool => $operation === 'create'),
-
-                        Forms\Components\Placeholder::make('user_id')
+                        Forms\Components\TextInput::make('title')->required(),
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('author', 'name')
                             ->label('Author')
-                            ->content(fn (User $user): ?string => auth()->user()->name)
-                            ->hidden(fn (string $operation): bool => $operation === 'edit'),
-
-                        Forms\Components\Placeholder::make('user_id')
-                            ->label('Author')
-                            ->content(fn (Post $post, User $user): ?string => $post->author->name)
-                            ->hidden(fn (string $operation): bool => $operation === 'create')
+                            ->options(function () {
+                                return [
+                                    auth()->user()->id => auth()->user()->name,
+                                ];
+                            })
+                            // ->options(auth()->user()->name)
+                            // ->disabled()
                             ->dehydrated(),
-
                         Forms\Components\Section::make('Tags(Comma Separated)')->schema([Forms\Components\TextInput::make('tags')->required()]),
-                        Forms\Components\MarkdownEditor::make('body')
-                        ->required()
-                        ->hidden(fn (string $operation): bool => $operation === 'edit'),
-
-                        Forms\Components\MarkdownEditor::make('body')
-                        ->disabled()
-                        ->hidden(fn (string $operation): bool => $operation === 'create'),
-
+                        Forms\Components\MarkdownEditor::make('body')->required(),
                         Forms\Components\TextInput::make('comments_count')
                             ->default(0)
                             ->hidden()
@@ -85,10 +63,6 @@ class PostResource extends Resource
                                 ->options(function () {
                                     return Category::pluck('name', 'id');
                                 }),
-                        ]),
-                        Forms\Components\Section::make('Status')->schema([
-                            Forms\Components\Toggle::make('is_approved'),
-                            Forms\Components\Toggle::make('is_archived'),
                         ]),
                     ])
                     ->columnSpanFull(),
@@ -123,7 +97,7 @@ class PostResource extends Resource
                     ->searchable()
                     ->dateTime(), // mm/dd/yyyy format
                 // ->since(),
-            ])->defaultSort('created_at', 'desc')
+            ])->defaultSort('is_archived', '1')
             ->filters([
                 //
             ])
@@ -198,22 +172,16 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-                //
-            ];
+            //
+        ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPosts::route('/'),
-            'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            'index' => Pages\ListArchives::route('/'),
+            'create' => Pages\CreateArchives::route('/create'),
+            'edit' => Pages\EditArchives::route('/{record}/edit'),
         ];
-    }
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['user_id'] = auth()->id();
-
-        return $data;
     }
 }
