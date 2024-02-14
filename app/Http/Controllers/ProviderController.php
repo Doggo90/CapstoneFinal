@@ -33,7 +33,7 @@ class ProviderController extends Controller
             $user = Auth::user();
             $user->status = 'active';
             $user->save();
-            return redirect('/dashboard')->with('message', 'Welcome! You are now logged in.');
+            return redirect('/welcome')->with('message', 'Welcome! You are now logged in.');
         } else {
             // User already exists, log them in
             Auth::login($user);

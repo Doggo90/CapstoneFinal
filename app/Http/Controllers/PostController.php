@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
@@ -133,6 +134,12 @@ class PostController extends Controller
     }
     public function firstLogin(Request $request)
     {
+        $organizations = Organization::all();
+        $user = auth()->user();
+        return view('pages.firstLogin', compact('user', 'organizations'));
+    }
+    public function firstLoginUpdate(Request $request, User $user)
+    {
         $attributes = $request->validate([
             'phone' => ['required','max:11', 'min:11'],
             'address' => ['max:255'],
@@ -144,7 +151,7 @@ class PostController extends Controller
             'address' => $request->get('address'),
             'bio' => $request->get('bio'),
         ]);
-        $user = Auth::user();
+        $user = auth()->user();
         return view('pages.firstLogin', compact('user'));
     }
 

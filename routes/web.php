@@ -51,6 +51,7 @@ Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->nam
 Route::get('/categories', [PostController::class, 'AllCategories'])->name('allcategories');
 Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->name('announcements');
 Route::get('/welcome', [PostController::class, 'firstLogin'])->name('welcome');
+Route::post('/welcome', [PostController::class, 'firstLoginUpdate'])->name('welcome.update');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

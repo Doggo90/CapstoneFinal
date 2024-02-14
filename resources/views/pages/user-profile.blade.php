@@ -53,6 +53,12 @@
                                     <i class="ni location_pin mr-2"></i>{{$user->email}}
                                 </div>
                                 <div>
+                                    <strong>Organization</strong>
+                                </div>
+                                <div class="h6">
+                                    {{$user->organizations->nickname ?? 'This user has yet to set their bio.'}}
+                                </div>
+                                <div>
                                     <strong>Bio</strong>
                                 </div>
                                 <div class="h6">
@@ -151,13 +157,23 @@
                                         @php $posts = $user->posts; @endphp
                                         @foreach ($posts as $post)
                                         <a href="/post/{{$post->id}}">
-                                            <div class="p-2">
-
-                                                <span class="text-lg font-weight-bolder">{{ \Illuminate\Support\Str::limit($post->title, $limit = 30, $end = '...') }}
-                                                </span>
-                                                <br>
-                                                <small>{{$post->created_at->diffForHumans()}}</small>
-
+                                            <div class="col-lg-12 col-xs-12 d-flex justify-items-between mb-2">
+                                                <div class="col-10 p-2 me-5">
+                                                    <span class="text-lg font-weight-bolder">{{ \Illuminate\Support\Str::limit($post->title, $limit = 30, $end = '...') }}
+                                                    </span>
+                                                    <br>
+                                                    <small>{{$post->created_at->diffForHumans()}}</small>
+                                                </div>
+                                                <div class="col-lg-4 d-flex justify-items-end hidden-lg-down d-none d-sm-inline-flex">
+                                                    <p class="mb-0 p-2">
+                                                        <i class="fa fa-arrow-up text-success me-2"></i>
+                                                        <span class="font-weight-bold">{{ $post->likes()->count() }}</span>
+                                                    </p>
+                                                    <p class="mb-0 p-2">
+                                                        <i class="fa fa-comment text-success me-2"></i>
+                                                        <span class="font-weight-bold">{{ $post->comments()->count() }}</span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </a>
                                         @endforeach

@@ -93,7 +93,7 @@
                 @include('components.categories')
                 <div class="card mt-2 ">
                     <div class="card-header">
-                        <h5 class="text-center">Rankings</h5>
+                        <h5 class="text-center">Rankings (Reputation)</h5>
                     </div>
                     @foreach ($topRep as $top)
                         <a href="/profile/{{ $top->id }}">

@@ -11,7 +11,7 @@
                         <ul class="nav  nav-fill p-1" role="tablist">
                             <li class="nav-item mb-0 px-0 py-1 active d-flex align-items-center justify-content-center ">
                                 <span class="text-bold">One last thing before joining the community.
-                                    Please check if your account details is correct.
+                                    Please check if your account details are correct.
                                 </span>
 
                             </li>
@@ -74,7 +74,7 @@
 
                 @if (auth()->user()->id == $user->id)
                     <div class="card">
-                        <form role="form" method="POST" action={{ route('profile.update') }}
+                        <form role="form" method="POST" action={{ route('welcome.update') }}
                             enctype="multipart/form-data">
                             @csrf
                             <div class="card-header pb-0">
@@ -127,6 +127,19 @@
                                             <label for="example-text-input" class="form-control-label">Bio</label>
                                             <textarea class="form-control" type="text" name="bio" id="bio"
                                                 value="{{ old('bio', auth()->user()->bio) }}" placeholder="Please enter something about yourself."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Organization</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                @foreach ($organizations as $organization)
+                                                    <option value="{{ $organization->id }}">{{ $organization->nickname }}</option>
+                                                @endforeach
+                                              </select>
+
                                         </div>
                                     </div>
                                 </div>
