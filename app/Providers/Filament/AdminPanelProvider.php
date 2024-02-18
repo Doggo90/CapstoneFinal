@@ -35,6 +35,9 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+            ->brandLogo(asset('/img/logo.png'))
+            ->brandLogoHeight('3.5rem')
+            ->favicon(asset('/img/logo.png'))
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,

@@ -7,12 +7,31 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
-                            <div class="card card-plain">
+                            <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                                <div class="card-body p-5 text-center">
+
+                                  <div class="mb-md-5 mt-md-4 pb-5">
+
+                                    <h2 class="fw-bold text-white">CvSU - Tanza</h2>
+                                    <h4 class="fw-bold mb-2 text-white">Acad Forum</h3>
+                                    <p class="text-white-50 mb-5">Please use your CvSU Email to login.</p>
+
+                                    <a href="/auth/google/redirect" class="btn btn-info text-white">
+                                        <i class="fa fa-google"> </i>
+                                        Sign in with Google
+                                    </a>
+                                </div>
+                              </div>
+
+                            {{-- <div class="card card-plain">
                                 <div class="card-header pb-0 text-start">
                                     <h4 class="font-weight-bolder">Sign In</h4>
-                                    <p class="mb-0">Enter your email and password to sign in</p>
+                                    <p class="mb-0">Enter your CvSU email sign in</p>
                                 </div>
                                 <div class="card-body">
+
+                                </div> --}}
+                                {{-- <div class="card-body">
                                     <form role="form" method="POST" action="{{ route('login.perform') }}">
                                         @csrf
                                         @method('post')
@@ -32,24 +51,21 @@
                                             <button type="submit" class="btn btn-lg btn-success btn-lg w-100 mt-4 mb-0">Sign in</button>
                                         </div>
                                     </form>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-1 text-sm mx-auto">
                                         Forgot you password? Reset your password
                                         <a href="{{ route('reset-password') }}" class="text-primary text-gradient font-weight-bold">here</a>
                                     </p>
                                 </div> --}}
-                                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                {{-- <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                     <p class="mb-4 text-sm mx-auto">
                                         Don't have an account?
                                         <a href="{{ route('register') }}" class="text-success text-gradient font-weight-bold">Sign up</a>
                                     </p>
-                                    <a href="/auth/google/redirect" class="btn btn-info text-white">
-                                        <i class="fa fa-google"> </i>
-                                        Sign in with Google
-                                    </a>
-                                </div>
-                            </div>
+
+                                </div> --}}
+                            {{-- </div> --}}
                         </div>
                         <div
                             class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">

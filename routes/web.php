@@ -36,8 +36,8 @@ Route::get('/auth/google/callback', [ProviderController::class,'callback']);
 
 Route::get('/', App\Livewire\SortButton::class);
 Route::get('/', function () {return redirect('/dashboard');});
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
+// Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+// Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
 Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');

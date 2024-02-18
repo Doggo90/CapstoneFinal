@@ -4,7 +4,7 @@
     id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
         <a href="/dashboard" style="text-decoration: none; color:black; ">
-            <h3>CV<span>SU</span></h3>
+            <img src="{{ asset('/img/logo.png') }}" alt="CVSU Forum logo" style="max-height: 70px">
         </a>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
 

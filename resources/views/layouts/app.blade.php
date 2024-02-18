@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <link rel="icon" type="image/png" href="/img/logo.png">
     <title>
         Acad Forum
     </title>
@@ -24,6 +24,12 @@
 </head>
 
 <body class="{{ $class ?? '' }}">
+    <style>
+        main{
+            /* background-color: #82f3c2; */
+            background-image: linear-gradient(to bottom,#c5ebe0 ,#03884fc6);
+        }
+    </style>
         @guest
         {{-- <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/profile-layout-header.jpg'); background-position-y: 50%;">
             <span class="mask bg-success opacity-6"></span></div> --}}
@@ -32,7 +38,7 @@
         @auth
             {{-- <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('https://scontent.fmnl9-3.fna.fbcdn.net/v/t39.30808-6/308968418_576850790900568_2676254410150830803_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=783fdb&_nc_ohc=5EcUOz4jRh4AX_FLQIl&_nc_ht=scontent.fmnl9-3.fna&oh=00_AfBAQXeRc3rTZ3VF9gundMJAU7eY4ouaPX-K6A1FGBbVuw&oe=65B3798C'); background-position-y: 50%; background-repeat: no-repeat; background-size: cover, contain; background-position: center top;">
                 <span class="mask bg-success opacity-6"></span></div> --}}
-            <main class="main-content border-radius-lg">
+            <main class="main-content">
                 @yield('content')
             </main>
         @endauth

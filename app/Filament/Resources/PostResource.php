@@ -28,7 +28,6 @@ class PostResource extends Resource
     protected static ?string $navigationGroup = 'Posts Management';
 
     protected static ?string $navigationLabel = 'Posts';
-
     protected static ?int $navigationSort = 1;
     public static function getNavigationBadge(): ?string
     {
