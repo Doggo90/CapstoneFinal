@@ -30,7 +30,7 @@ class CommentSection extends Component
             $comment = Comment::create([
                 'user_id' => auth()->user()->id,
                 'post_id' => $this->post->id,
-                'comment_body' => $this->comment_body,
+            'comment_body' => $this->comment_body,
             ]);
             $this->dispatch('comment-created', $comment);
             if (auth()->user()->email != $this->post->author->email) {

@@ -52,6 +52,7 @@
                         <!-- Comments section-->
 
                         <livewire:comment-section :key="$post->id" :$post />
+                        
                     </div>
                 </div>
 

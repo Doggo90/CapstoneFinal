@@ -53,7 +53,7 @@
                 @endphp
                 <h3>Comments ({{ $post->comments->count() }})</h3>
             </div>
-            <br>
+
             {{-- HELPFUL COMMENT FOREACH --}}
             @foreach ($comments as $comment)
                 @if ($post->id == $comment->post_id)
@@ -61,7 +61,7 @@
                         @php
                             $flag = true;
                         @endphp
-                        <div class="card">
+                        <div class="card mb-4">
                             <div class="card-header">
                                 <h5 class="text-center">
                                     This comment is marked as helpful by the author.
@@ -88,7 +88,6 @@
                                                 {{ $comment->created_at->diffForHumans() }}
                                             </small>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -100,63 +99,56 @@
             {{-- @php
                 dd($flag);
             @endphp --}}
-            <br>
             @foreach ($comments as $comment)
                 @if ($comment->post_id === $this->post->id)
                     @if ($comment->is_helpful == 0)
-                        <div class="d-flex mb-4">
-                            <!-- Parent comment-->
+                    <div x-data="{open: false}" class="d-flex flex-column">
+                        <!-- Image -->
+                        <div class="flex-shrink-0 position-absolute">
                             <a href="/profile/{{ $comment->author->id }}">
-                                <div class="flex-shrink-0"><img class="img-fluid rounded-circle"
-                                        style="width: 3rem; height: 3rem;"
-                                        src="{{ !empty($comment->author->photo) ? url($comment->author->photo) : url('/img/no-image.png') }}"
-                                        alt="..."></div>
+                                <img class="img-fluid rounded-circle" style="width: 3rem; height: 3rem;"
+                                    src="{{ !empty($comment->author->photo) ? url($comment->author->photo) : url('/img/no-image.png') }}"
+                                    alt="...">
                             </a>
-                            <div class="ms-3">
+                        </div>
+                        <!-- Content -->
+                        <div class="ms-5 p-2 mt-0 d-flex flex-column w-100">
+                            <div>
+                                <!-- Author name and helpful section -->
                                 <a href="/profile/{{ $comment->author->id }}">
                                     <div class="fw-bold">{{ $comment->author->name }}</div>
                                     @if ($flag == false)
                                         <livewire:is-helpful :comment="$comment" />
                                     @endif
                                 </a>
-                                {{ $comment->comment_body }}
-                                <!-- Child comment -->
-                                <div>
+                            </div>
+                            <!-- Comment body -->
+                            <div>{{ $comment->comment_body }}</div>
+                            <!-- Child comment -->
+                            <div>
+                                <small>{{ $comment->created_at->diffForHumans() }}</small>
+                            </div>
+                            <!-- Replies link -->
+                            <div x-on:click="open = !open">
+                                <i class="fa fa-arrow-right ms-3 me-2"></i>
+                                <span>
                                     <small>
-                                        {{ $comment->created_at->diffForHumans() }}
+                                        <a href="#section-{{ $comment->id }}">
+                                            Replies ({{ $comment->reply->count() }})
+                                        </a>
                                     </small>
-                                </div>
+                                </span>
                             </div>
                         </div>
+                        <!-- Replies section -->
+                        <div x-show="open" x-cloak class="ms-2 w-100">
+                            <livewire:reply-section :key="$comment->id" :$comment/>
+                        </div>
+                    </div>
                     @endif
                 @endif
             @endforeach
-            <div class="d-flex mt-4">
-                {{-- <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">{{$comment->author->name}}</div>
-                            {{$comment->comment_body}}
-                        </div>
-                        {{ $comment->created_at->diffForHumans() }}
-                    </div>
-                    <!-- Child comment 2-->
-                    <div class="d-flex mt-4">
-                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
-                        <div class="ms-3">
-                            <div class="fw-bold">Commenter Name</div>
-                            When you put money directly to a problem, it makes a good headline.
-                        </div>
-                    </div> --}}
-                <!-- Single comment-->
-                {{-- <div class="d-flex">
-                <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
-                <div class="ms-3">
-                    <div class="fw-bold">Commenter Name</div>
-                    When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
-                </div>
-            </div> --}}
-            </div>
-        </div>
+    </div>
         <script>
             // Watch for changes in the query and remove the first slash
             $watch('query', (value) => {

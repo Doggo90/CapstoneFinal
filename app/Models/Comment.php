@@ -19,6 +19,10 @@ class Comment extends Model
             $comment->post->save();
         });
     }
+    public function reply(): HasMany
+    {
+        return $this->hasMany(Reply::class , 'comment_id');
+    }
     public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);

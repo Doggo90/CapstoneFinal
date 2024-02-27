@@ -21,6 +21,11 @@
     {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
     @livewireStyles
     @vite('resources/css/app.css')
+    <style>
+        [x-cloak]{
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -60,7 +65,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{asset('assets/js/argon-dashboard.js')}}"></script>
-    @stack('js');
+    @stack('js')
     @livewireScripts
 
 </body>
