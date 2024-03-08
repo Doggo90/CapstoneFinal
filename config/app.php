@@ -170,6 +170,7 @@ return [
         App\Providers\Filament\AdminPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
         Livewire\LivewireServiceProvider::class,
+        Xetaio\Mentions\Providers\MentionServiceProvider::class,
     ])->toArray(),
 
     /*

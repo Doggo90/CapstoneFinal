@@ -78,6 +78,16 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Post::class);
     }
+    public function getProfileLinkAttribute()
+    {
+        return route('profile', ['id' => $this->id]);
+    }
+
+
+    public function comment(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
     public function likes(){
         return $this->belongsToMany(Post::class, 'post_like')->withTimestamps();
     }
