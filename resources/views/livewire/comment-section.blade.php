@@ -15,29 +15,53 @@
                         </a>
                     </div>
                     <div class="col position-relative" x-data="{
-                        open: false
+                        open: false,
+                        handleKeydown(event){
+                            if(event.key == '@'){
+                                this.open = true;
+                                {{-- this.search = ''; --}}
+                            }
+                            if(event.keyCode == 27){
+                                this.open = false;
+                            }
+                        }
                     }">
                         <textarea class="form-control" rows="2" name="comment_body" id="comment_body" wire:model="comment_body"
-                            wire:model.live.debounce.500ms="search" @keydown.slash="open = true" @keydown.escape="open = false"
+                            wire:model.live.debounce.500ms="search" @keydown.="handleKeydown"
                             placeholder="Join the discussion and leave a comment!" wire:keydown.enter="createComment" maxlength='200'
                             minlength='10'>
                         </textarea>
-                        <div x-show="open" @click.away="open = false" x-cloak>
-                            <ul>
+                        <div x-show="open" @click.away="open = false" x-cloak class="card">
+                            <ul class="mt-0 margin-auto card-header" style="list-style-type: none">
                                 @php
-                                preg_match_all('/\/\w+/',$comment_body, $matches);
-                                $search = implode(' ', $matches[0]);
-                                $results = App\Models\User::where('name', 'like', '%' . substr($search, 1) . '%')
-                                ->orWhere('email', 'like', '%' . substr($search, 1) . '%')
-                                ->get();
+                                    preg_match_all('/\@\w+/', $comment_body, $matches);
+                                    if (count($matches[0]) > 1) {
+                                        $matches[0] = [end($matches[0])]; // Keep only the last element in the array
+                                    }
+                                    $search = implode(' ', $matches[0]);
+                                    $results = App\Models\User::where('name', 'like', '%' . substr($search, 1) . '%')
+                                        ->orWhere('email', 'like', '%' . substr($search, 1) . '%')
+                                        ->get();
                                 @endphp
-                                {{-- <h1>{{ $search }}</h1> --}}
+
+                                {{-- <h1>{{ substr($search, 1) }}</h1> --}}
                                 @foreach ($results as $result)
-                                    <div class="random">
-                                        <h1>PUTANG IAN MO</h1>
-                                        <li wire:click="mentionUser('{{ $result->email }}')">
-                                            <p class="text-sm font-medium text-black">{{ $result->name }}</p>
-                                            <small>{{ $result->email }}</small>
+                                <div class="random">
+                                        <li>
+                                            <a wire:click="mentionUser('{{ $result->email }}'),open = false" href="#"
+                                            class="d-flex align-items-center">
+                                            <img class="img-fluid rounded-circle me-3" style="width: 2rem; height: 2rem;"
+                                                src="{{ !empty($result->photo) ? url($result->photo) : url('/img/no-image.png') }}"
+                                                alt="commenter img">
+                                            <div class="pl-2 flex-grow-1">
+                                                <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
+                                                    <span
+                                                        class="font-semibold text-black-600 dark-text-black">{{ $result->name }}</span>
+                                                </div>
+                                                <div class="text-xs text-blue-600 dark-text-blue-500">
+                                                    {{ $result->email }}</div>
+                                            </div>
+                                            </a>
                                         </li>
                                     </div>
                                 @endforeach
@@ -58,7 +82,7 @@
                 <p>You need to log in to comment. <a href="/login">Click here.</a></p>
 
             @endauth {{-- (auth()->user()) END IF ^^^ --}}
-            <!-- Comment with nested comments-->
+            {{--  Comment with nested comments --}}
             <div class="row">
                 <h3>Comments ({{ $post->comments->count() }})</h3>
             </div>
@@ -177,28 +201,64 @@
                                             })->get();
                                             // dd($matchedUsers);
                                             $modifiedCommentBody = $comment->comment_body;
-                                        //    dd($users);
+                                            //    dd($users);
+                                            $pastUser = '';
                                         @endphp
 
 
-                                        @foreach ($matchedUsers as $user1)
+                                        {{-- // dd($pastUser);
+// $profileLink = route('profile', ['id' => $user1->id]);
+// $modifiedCommentBody = str_replace(
+//     '@' . $username,
+//     '<a href="' . $profileLink . '">@' . $username . '</a>',
+//     $modifiedCommentBody,
+// ); --}}
+                                        {{-- @foreach ($matchedUsers as $user)
                                             @php
+                                                $username = $user->name;
 
-                                                $username = $user1->name;
-                                                // dd($user);
-                                                $profileLink = route('profile', ['id' => $user1->id]);
-                                                $modifiedCommentBody = str_replace(
-                                                    '@' . $username,
-                                                    '<a href="' . $profileLink . '">@' . $username . '</a>',
-                                                    $modifiedCommentBody,
-                                                );
+                                                // Initialize an array to store IDs of users with the same name
+                                                if (!isset($nameDict[$username])) {
+                                                    $nameDict[$username] = [];
+                                                }
+
+                                                // Store the user ID in the dictionary
+                                                $nameDict[$username][] = $user->id;
+
+                                                // Use $pastUser directly for conditional logic in profile link
+                                                $profileLink = route('profile', ['id' => $user->id]);
+
+                                                // dd($nameDict);
                                             @endphp
-                                            <h1>{{ $user1 }}</h1>
-                                            <br>
-                                        @endforeach
+                                        @endforeach --}}
+                                        @php
+                                            $replacementCounts = [];
 
+                                            foreach ($matchedUsers as $user) {
+                                                $username = $user->name;
+
+                                                if (!isset($replacementCounts[$username])) {
+                                                    $replacementCounts[$username] = 0;
+                                                }
+
+                                                $profileLink = route('profile', ['id' => $user->id]);
+                                                $uniqueUsername = $username . $replacementCounts[$username];
+
+                                                $modifiedCommentBody = preg_replace(
+                                                    '/@' . preg_quote($username, '/') . '\b/',
+                                                    "<a href='$profileLink'>@$uniqueUsername</a>",
+                                                    $modifiedCommentBody,
+                                                    1,
+                                                    $count,
+                                                );
+
+                                                // Update the replacement count for this username
+                                                $replacementCounts[$username] += $count;
+                                            }
+                                        @endphp
 
                                         {!! $modifiedCommentBody !!}
+
                                     </p>
                                 </div>
                                 <div>

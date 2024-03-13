@@ -81,6 +81,7 @@
                         </li>
                     @endif
                 @endforeach
+            </ul>
             @else
                 <ul class="dropdown-menu mt-0 margin-auto dropdown-menu-end">
                     <li class="divide-y divide-green-100 dark:divide-green-400">

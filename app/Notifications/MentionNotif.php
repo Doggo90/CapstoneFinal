@@ -6,18 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Comment;
 
 class MentionNotif extends Notification
 {
     use Queueable;
     public $model;
+    public $comment;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($model)
+    public function __construct(Comment $comment)
     {
-        $this->model = $model;
+        // $this->model = $model;
+        $this->comment = $comment;
     }
 
     /**
@@ -46,14 +49,13 @@ class MentionNotif extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
+    public function toDatabase(object $notifiable): array
     {
-        $user = $this->model->user->name;
-        $photo = $this->model->user->photo;
-        $model_id = $this->model->getKey();
+        $user = $this->comment->user->name;
+        $photo = $this->comment->user->photo;
+        $model_id = $this->comment->getKey();
 
-        $link = route('show', ['post' => $this->model->post_id]); 
-
+        $link = route('show', ['post' => $this->comment->post_id]);
         return [
             'user' => $user,
             'photo' => $photo,
