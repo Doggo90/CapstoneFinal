@@ -55,4 +55,19 @@ class Comment extends Model
             }
         });
     }
+    public function mentions($email)
+    {
+        // Find the user with the given email
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            // Attach the user to the reply's mentions
+            $this->mentionsRelationship()->attach($user->id);
+        }
+    }
+
+    public function mentionsRelationship()
+    {
+        return $this->belongsToMany(User::class, 'comment_user');
+    }
 }

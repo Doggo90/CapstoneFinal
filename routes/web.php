@@ -44,14 +44,14 @@ Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest
 Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
 Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-Route::get('/dashboard', [PostController::class, 'index'])->name('home');
-Route::get('/post/{post}', [PostController::class, 'show'])->name('show');
+Route::get('/dashboard', [PostController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/post/{post}', [PostController::class, 'show'])->middleware('auth')->name('show');
 Route::get('/archives', [PostController::class, 'archives'])->middleware('auth')->name('archives');
-Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->name('categories');
-Route::get('/categories', [PostController::class, 'AllCategories'])->name('allcategories');
-Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->name('announcements');
-Route::get('/welcome', [PostController::class, 'firstLogin'])->name('welcome');
-Route::post('/welcome', [PostController::class, 'firstLoginUpdate'])->name('welcome.update');
+Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->middleware('auth')->name('categories');
+Route::get('/categories', [PostController::class, 'AllCategories'])->middleware('auth')->name('allcategories');
+Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->middleware('auth')->name('announcements');
+Route::get('/welcome', [PostController::class, 'firstLogin'])->middleware('auth')->name('welcome');
+Route::post('/welcome', [PostController::class, 'firstLoginUpdate'])->middleware('auth')->name('welcome.update');
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
 	Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');

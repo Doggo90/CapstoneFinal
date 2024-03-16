@@ -16,12 +16,11 @@
                     </div>
                     <div class="col position-relative" x-data="{
                         open: false,
-                        handleKeydown(event){
-                            if(event.key == '@'){
+                        handleKeydown(event) {
+                            if (event.key == '@') {
                                 this.open = true;
-                                {{-- this.search = ''; --}}
                             }
-                            if(event.keyCode == 27){
+                            if (event.keyCode == 27) {
                                 this.open = false;
                             }
                         }
@@ -46,21 +45,23 @@
 
                                 {{-- <h1>{{ substr($search, 1) }}</h1> --}}
                                 @foreach ($results as $result)
-                                <div class="random">
+                                    <h1>{{ $search }}</h1>
+                                    <div class="random">
                                         <li>
-                                            <a wire:click="mentionUser('{{ $result->email }}'),open = false" href="#"
-                                            class="d-flex align-items-center">
-                                            <img class="img-fluid rounded-circle me-3" style="width: 2rem; height: 2rem;"
-                                                src="{{ !empty($result->photo) ? url($result->photo) : url('/img/no-image.png') }}"
-                                                alt="commenter img">
-                                            <div class="pl-2 flex-grow-1">
-                                                <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
-                                                    <span
-                                                        class="font-semibold text-black-600 dark-text-black">{{ $result->name }}</span>
+                                            <a wire:click="addMentionedUser('{{ $result->email }}'),open = false"
+                                                href="#" class="d-flex align-items-center">
+                                                <img class="img-fluid rounded-circle me-3"
+                                                    style="width: 2rem; height: 2rem;"
+                                                    src="{{ !empty($result->photo) ? url($result->photo) : url('/img/no-image.png') }}"
+                                                    alt="commenter img">
+                                                <div class="pl-2 flex-grow-1">
+                                                    <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
+                                                        <span
+                                                            class="font-semibold text-black-600 dark-text-black">{{ $result->name }}</span>
+                                                    </div>
+                                                    <div class="text-xs text-blue-600 dark-text-blue-500">
+                                                        {{ $result->email }}</div>
                                                 </div>
-                                                <div class="text-xs text-blue-600 dark-text-blue-500">
-                                                    {{ $result->email }}</div>
-                                            </div>
                                             </a>
                                         </li>
                                     </div>
@@ -87,7 +88,7 @@
                 <h3>Comments ({{ $post->comments->count() }})</h3>
             </div>
 
-            {{-- HELPFUL COMMENT FOREACH --}}
+            {{-- ------------------------------------------------HELPFUL COMMENT----------------------------------------- --}}
             @foreach ($comments as $comment)
                 @if ($post->id == $comment->post_id)
                     @if ($comment->is_helpful == 1)
@@ -127,7 +128,7 @@
                                             <livewire:is-helpful :comment="$comment" />
                                         </a>
 
-                                        <p>
+                                        <p class="text-bold">
                                             @foreach ($matchedUsers as $user)
                                                 @php
                                                     $username = $user->name;
@@ -155,7 +156,7 @@
                     @endif
                 @endif
             @endforeach
-            {{-- REST OF COMMENTS --}}
+            {{-- ------------------------------------------------REST OF COMMENTS----------------------------------------- --}}
             {{-- @php
                 dd($flag);
             @endphp --}}
@@ -163,7 +164,6 @@
                 @if ($comment->post_id === $this->post->id)
                     @if ($comment->is_helpful == 0)
                         <div x-data="{ open: false }" class="d-flex flex-column">
-                            <!-- Image -->
                             <div class="flex-shrink-0 position-absolute">
                                 <a href="/profile/{{ $comment->author->id }}">
                                     <img class="img-fluid rounded-circle" style="width: 3rem; height: 3rem;"
@@ -171,10 +171,8 @@
                                         alt="...">
                                 </a>
                             </div>
-                            <!-- Content -->
                             <div class="ms-5 p-2 mt-0 d-flex flex-column w-100">
                                 <div>
-                                    <!-- Author name and helpful section -->
                                     <a href="/profile/{{ $comment->author->id }}">
                                         <div class="fw-bold">{{ $comment->author->name }}</div>
                                         @if ($flag == false)
@@ -182,9 +180,8 @@
                                         @endif
                                     </a>
                                 </div>
-                                <!-- Comment body -->
                                 <div>
-                                    <p>
+                                    <p class="mb-0">
                                         @php
                                             preg_match_all(
                                                 '/(?:^|\s)@(\w+)|(?:^|\s)(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)/',
@@ -203,35 +200,6 @@
                                             $modifiedCommentBody = $comment->comment_body;
                                             //    dd($users);
                                             $pastUser = '';
-                                        @endphp
-
-
-                                        {{-- // dd($pastUser);
-// $profileLink = route('profile', ['id' => $user1->id]);
-// $modifiedCommentBody = str_replace(
-//     '@' . $username,
-//     '<a href="' . $profileLink . '">@' . $username . '</a>',
-//     $modifiedCommentBody,
-// ); --}}
-                                        {{-- @foreach ($matchedUsers as $user)
-                                            @php
-                                                $username = $user->name;
-
-                                                // Initialize an array to store IDs of users with the same name
-                                                if (!isset($nameDict[$username])) {
-                                                    $nameDict[$username] = [];
-                                                }
-
-                                                // Store the user ID in the dictionary
-                                                $nameDict[$username][] = $user->id;
-
-                                                // Use $pastUser directly for conditional logic in profile link
-                                                $profileLink = route('profile', ['id' => $user->id]);
-
-                                                // dd($nameDict);
-                                            @endphp
-                                        @endforeach --}}
-                                        @php
                                             $replacementCounts = [];
 
                                             foreach ($matchedUsers as $user) {
@@ -252,9 +220,9 @@
                                                     $count,
                                                 );
 
-                                                // Update the replacement count for this username
                                                 $replacementCounts[$username] += $count;
                                             }
+                                            // dd($comment->post_id);
                                         @endphp
 
                                         {!! $modifiedCommentBody !!}
@@ -268,7 +236,7 @@
                                     <i class="fa fa-arrow-right ms-3 me-2"></i>
                                     <span>
                                         <small>
-                                            <a href="#section-{{ $comment->id }}">
+                                            <a href="#">
                                                 Replies ({{ $comment->reply->count() }})
                                             </a>
                                         </small>

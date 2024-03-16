@@ -20,7 +20,19 @@ class CommentSection extends Component
     public $comment_body = '';
     public $search = '';
     public $results = [];
+    public $mentionedUsers = [];
+    public function addMentionedUser($email)
+{
+    $currMention = $this->mentionedUsers[] = $email;
 
+    $mentionedUser = User::where('email', $email)->first();
+    if ($mentionedUser) {
+        preg_match_all('/\@\w+\b/', $this->comment_body, $matches);
+        $lastMention = end($matches[0]);
+        $this->comment_body = preg_replace('/' . preg_quote($lastMention, '/') . '/', '@' . $mentionedUser->name, $this->comment_body, 1);
+        // dd($this->comment_body);
+    }
+}
     public function createComment()
     {
         $this->validate([
@@ -42,6 +54,12 @@ class CommentSection extends Component
             $content = $parser->parse($comment->comment_body);
             // $content2 = substr($content, 1);
             $comment->comment_body = $content;
+            foreach ($this->mentionedUsers as $email) {
+                $user = User::where('email', $email)->first();
+                if ($user) {
+                    $comment->mentions($email);
+                }
+            }
             $comment->save();
             $this->dispatch('comment-created', $comment);
             if (auth()->user()->email != $this->post->author->email) {
@@ -50,31 +68,28 @@ class CommentSection extends Component
             // if (auth()->user()->email != $this->post->author->email) {
                 //search the $comment.body for any matches in users table using regex
                 // if there is a match, send a notif to that user.
-                preg_match_all(
-                    '/(?:^|\s)@(\w+)|(?:^|\s)(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)/',
-                    $comment->comment_body,
-                    $matches,
-                );
-                $users = array_unique($matches[1]);
-                if($users != null) {
-
-                    $matchedUsers = User::where(function ($query) use ($users) {
-                        foreach ($users as $user) {
-                            $query
-                                ->orWhere('name', 'like', "%$user%")
-                                ->orWhere('email', 'like', "%$user%");
-                        }
-                    })->get();
-                    foreach ($matchedUsers as $result) {
-                        if (auth()->user()->email != $result->email) {
-                            $result->notify(new MentionNotif($comment));
-                            // dd($matchedUsers);
-                        }
+            preg_match_all(
+                '/(?:^|\s)@(\w+)|(?:^|\s)(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)/',
+                $comment->comment_body,
+                $matches,
+            );
+            $users = array_unique($matches[1]);
+            if($users != null) {
+                $mentionedUser = User::where(function ($query) use ($users) {
+                    foreach ($users as $user) {
+                        $query
+                            ->orWhere('name', 'like', "%$user%")
+                            ->orWhere('email', 'like', "%$user%");
+                    }
+                })->get();
+                foreach ($mentionedUser as $result) {
+                    if (auth()->user()->email != $result->email) {
+                        $result->notify(new MentionNotif($comment));
+                        // dd($matchedUsers);
                     }
                 }
-                // dd($users != null);
-                // $this->post->author->notify(new MentionNotif($comment));
-            // }
+            }
+            $this->mentionedUsers = [];
             $this->comment_body = '';
             toastr()->success('Comment posted!');
         }
@@ -83,26 +98,12 @@ class CommentSection extends Component
 
         $mentionedUser = User::where('email', $email)->first();
         if ($mentionedUser) {
-            // $comment = Comment::create([
-            //     'user_id' => auth()->user()->id,
-            //     'post_id' => $this->post->id,
-            // 'comment_body' => $this->comment_body,
-            // ]);
-
-
             preg_match_all('/\@\w+\b/', $this->comment_body, $matches);
-
             $lastMention = end($matches[0]);
-
-
             $this->comment_body = preg_replace('/' . preg_quote($lastMention, '/') . '/', '@' . $mentionedUser->name, $this->comment_body, 1);
-
-            // $this->comment_body = $newCommentBody;
-
+            // dd($this->comment_body);
         }
-
     }
-
     public function resetSearch()
     {
         $this->search = '';
@@ -112,6 +113,7 @@ class CommentSection extends Component
     public function render()
     {
         // $users = User::where('name', 'like', '%' . $this->search . '%')->get();
+
         $comments = Comment::all();
         $flag = false;
         $results = User::where('name', 'like', '%' . substr($this->search, 1) . '%')

@@ -110,4 +110,14 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->likes()->count(5);
     }
+    public function mentions()
+    {
+        return $this->belongsToMany(Reply::class, 'reply_user', 'user_id', 'reply_id')
+                    ->withTimestamps();
+    }
+    public function commentMentions()
+    {
+        return $this->belongsToMany(Comment::class, 'comment_user', 'user_id', 'comment_id')
+                    ->withTimestamps();
+    }
 }

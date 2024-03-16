@@ -6,28 +6,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Comment;
 use App\Models\Reply;
 
-class MentionNotif extends Notification
+class ReplyMention extends Notification
 {
     use Queueable;
-    public $model;
-    public $comment;
-    public $reply;
+
+    protected $reply;
     /**
      * Create a new notification instance.
      */
-    public function __construct($comment = null, $reply = null)
-{
-    if ($comment instanceof Comment) {
-        $this->comment = $comment;
-    }
-
-    if ($reply instanceof Reply) {
+    public function __construct(Reply $reply)
+    {
         $this->reply = $reply;
     }
-}
 
     /**
      * Get the notification's delivery channels.
@@ -55,29 +47,18 @@ class MentionNotif extends Notification
      *
      * @return array<string, mixed>
      */
+    public function toArray(object $notifiable): array
+    {
+        return [
+            //
+        ];
+    }
     public function toDatabase(object $notifiable): array
     {
-        $user = null;
-        $photo = null;
-        $model_id = null;
-        $link = null;
-        if ($this->comment instanceof Comment) {
-            $user = $this->comment->user->name;
-            $photo = $this->comment->user->photo;
-            $model_id = $this->comment->getKey();
-            $link = route('show', ['post' => $this->comment->post_id]);
-        }
-
-        if ($this->reply instanceof Reply) {
-            $user = $this->reply->author->name;
-            $photo = $this->reply->author->photo;
-            $model_id = $this->reply->getKey();
-            $link = route('show', ['post' => $this->reply->comment->post_id]);
-        }
-        // $user = $this->comment->user->name;
-        // $photo = $this->comment->user->photo;
-        // $model_id = $this->comment->getKey();
-        // $link = route('show', ['post' => $this->comment->post_id]);
+        $user = $this->reply->author->name;
+        $photo = $this->reply->author->photo;
+        $model_id = $this->reply->getKey();
+        $link = route('show', ['post' => $this->reply->comment->post_id]);
         return [
             'user' => $user,
             'photo' => $photo,
