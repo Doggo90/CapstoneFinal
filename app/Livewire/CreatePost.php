@@ -24,7 +24,7 @@ class CreatePost extends Component
             'title' => 'required | min:2',
             'body' => 'required | min:2',
             'tags' => 'required | min:2',
-            'selectedCategories' => 'required|array',
+            'selectedCategories' => 'required',
         ]);
         $post = Post::create([
             'title' => $this->title,

@@ -3,8 +3,6 @@
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
     <div class="container-fluid">
-        {{-- START FEATURED POSTS || ANNOUCEMENTS --}}
-
         <div class="row">
             <div class="col-lg-3">
                 @include('components.announcements')
@@ -83,12 +81,65 @@
                     <livewire:create-post />
                 @endauth
                 {{-- START POSTS LOOPINGS --}}
+                <style>
+                    .custom-button {
+                        margin: 0;
+                    }
+                </style>
                 <br>
-                @livewire('sort-button', ['posts' => $allposts])
+                <div class="card">
+                    <div class="card-body">
+                        @foreach ($posts as $post)
+                            @if ($post->is_archived == 0 && $post->is_approved)
+                                <a href="/post/{{ $post->id }}">
+                                    <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
+                                        <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-start mx-3">
+                                            <p class="text-capitalize text-bold">
+                                                <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;"
+                                                    src="{{ !empty($post->author->photo) ? url($post->author->photo) : url('/img/no-image.png') }}"
+                                                    alt="profile">
+                                                {{ $post->author->name }}
+                                            </p>
+                                        </div>
+                                        <div class="card-body d-flex justify-content-between mx-4 mb-4"
+                                            style="max-height: 100px; overflow: hidden; margin-bottom: 0; margin-left: 0; margin-right: 0;">
+                                            <div>
+                                                <p class="text-uppercase fw-bold">
+                                                    {{ \Illuminate\Support\Str::limit(explode('å', $post->title)[0], $limit = 40, $end = '...') }}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p>
+                                                    <i class="fa fa-arrow-up text-success me-3"></i>
+                                                    <span class="font-weight-bold">{{ $post->likes()->count() }}</span>
+                                                    <i class="fa fa-comment text-success ms-3 me-3"></i>
+                                                    <span class="font-weight-bold">{{ $post->comments->count() }}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-start p-3 mx-4 my-2"
+                                            style="max-height: 100px; padding-top: 0; margin-top: 0;">
+                                            <p class="text-sm mb-0">
+                                                <i class="fa fa-clock text-success"></i>
+                                                <span class="font-weight-bold">
+                                                    {{ $post->created_at->diffForHumans() }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <br>
+                            @endif
+                        @endforeach
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-center inline-block">
+                            {{ $posts->withQueryString()->links() }}
+                        </div>
+                    </div>
+                </div>
+                <br>
                 {{-- END POSTS LOOPINGS --}}
             </div>
-
-            {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND WHATNOT) --}}
             <div class="col-lg-3">
                 @include('components.categories')
                 <div class="card mt-2 ">
@@ -116,98 +167,13 @@
                 </div>
 
             </div>
+            @livewireScripts
+
         </div>
         <div class="row">
             <div class="col-lg-7 mb-lg-0 mb-4">
             </div>
-        </div><br><br><br>
-        @include('layouts.footers.auth.footer')
+            @include('layouts.footers.auth.footer')
+        </div>
     </div>
 @endsection
-
-@push('js')
-    <script src="./assets/js/plugins/chartjs.min.js"></script>
-    <script>
-        var ctx1 = document.getElementById("chart-line").getContext("2d");
-
-        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
-
-        gradientStroke1.addColorStop(1, 'rgba(251, 99, 64, 0.2)');
-        gradientStroke1.addColorStop(0.2, 'rgba(251, 99, 64, 0.0)');
-        gradientStroke1.addColorStop(0, 'rgba(251, 99, 64, 0)');
-        new Chart(ctx1, {
-            type: "line",
-            data: {
-                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                datasets: [{
-                    label: "Mobile apps",
-                    tension: 0.4,
-                    borderWidth: 0,
-                    pointRadius: 0,
-                    borderColor: "#fb6340",
-                    backgroundColor: gradientStroke1,
-                    borderWidth: 3,
-                    fill: true,
-                    data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-                    maxBarThickness: 6
-
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        },
-                        ticks: {
-                            display: true,
-                            padding: 10,
-                            color: '#fbfbfb',
-                            font: {
-                                size: 11,
-                                family: "Open Sans",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: false,
-                            drawOnChartArea: false,
-                            drawTicks: false,
-                            borderDash: [5, 5]
-                        },
-                        ticks: {
-                            display: true,
-                            color: '#ccc',
-                            padding: 20,
-                            font: {
-                                size: 11,
-                                family: "Open Sans",
-                                style: 'normal',
-                                lineHeight: 2
-                            },
-                        }
-                    },
-                },
-            },
-        });
-    </script>
-@endpush

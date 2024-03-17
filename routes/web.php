@@ -26,8 +26,8 @@ use App\Livewire\SortButton;
 use App\Livewire\CreatePost;
 use App\Livewire\Upvote;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return redirect('/dashboard');
 });
 // GOOGLE LOG IN API
 Route::get('/auth/google/redirect', [ProviderController::class,'redirect']);
@@ -49,6 +49,7 @@ Route::get('/post/{post}', [PostController::class, 'show'])->middleware('auth')-
 Route::get('/archives', [PostController::class, 'archives'])->middleware('auth')->name('archives');
 Route::get('/category/{category}', [PostController::class, 'CategoryShow'])->middleware('auth')->name('categories');
 Route::get('/categories', [PostController::class, 'AllCategories'])->middleware('auth')->name('allcategories');
+Route::get('/tag/{tag}', [PostController::class, 'allTags'])->middleware('auth')->name('tags');
 Route::get('/announcement/{announcement}', [PostController::class, 'AnnouncementShow'])->middleware('auth')->name('announcements');
 Route::get('/welcome', [PostController::class, 'firstLogin'])->middleware('auth')->name('welcome');
 Route::post('/welcome', [PostController::class, 'firstLoginUpdate'])->middleware('auth')->name('welcome.update');

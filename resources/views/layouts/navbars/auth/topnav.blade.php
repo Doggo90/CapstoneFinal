@@ -1,10 +1,10 @@
 <!-- Navbar -->
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
+<nav style="margin: 0; padding:0;" class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl
         {{ str_contains(Request::url(), 'virtual-reality') == true ? ' mt-3 mx-3 bg-primary' : '' }}"
     id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
+    <div class="container-fluid py-0 px-3">
         <a href="/dashboard" style="text-decoration: none; color:black; ">
-            <img src="{{ asset('/img/logo.png') }}" alt="CVSU Forum logo" style="max-height: 70px">
+            <img src="{{ asset('/img/logo.png') }}" alt="CVSU Forum logo" style="max-height: 50px">
         </a>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
 

@@ -82,4 +82,8 @@ class OrganizationResource extends Resource
             'edit' => Pages\EditOrganization::route('/{record}/edit'),
         ];
     }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role == 'admin';
+    }
 }

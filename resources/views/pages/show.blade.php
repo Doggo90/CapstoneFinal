@@ -2,7 +2,7 @@
 
 @section('content')
     @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
-    <div class="container-fluid py-4">
+    <div class="container-fluid">
         <div class="row">
 
             {{-- START POSTS LOOPINGS --}}
@@ -16,7 +16,7 @@
                                 {{-- @php
                                     dd($post1);
                                 @endphp --}}
-                                <ul class="flex list-inline">
+                                <ul class="flex list-inline mb-0">
                                     @foreach($post1->categories as $category)
                                     <li class="badge bg-secondary text-decoration-none link-light list-inline-item">
                                         <a href="/category/{{$category->id}}" style="text-decoration: none; color:white; ">
@@ -27,6 +27,16 @@
                                 </ul>
                                 <livewire:archive-button :post="$post" />
                                 <!-- Post meta content-->
+                                <div class="mt-0 pt-0">
+                                    <small>Tags: </small>
+                                    @foreach ($tags as $tag)
+                                    <a href="/tag/{{ $tag }}">
+                                        <span>
+                                            {{ $tag }}
+                                        </span>
+                                    </a>,
+                                    @endforeach
+                                </div>
                                 <div class="text-muted fst-italic mb-2">{{$post->created_at->diffForHumans()}} by
                                     <a href="/profile/{{$post->author->id}}">
                                         {{ \Illuminate\Support\Str::limit(explode(' ', $post->author->name)[0], $limit = 15, $end = ''). ' '}}<i class="fa fa-star"></i>{{$post->author->reputation}}</a>
@@ -52,7 +62,7 @@
                         <!-- Comments section-->
 
                         <livewire:comment-section :key="$post->id" :$post />
-                        
+
                     </div>
                 </div>
 

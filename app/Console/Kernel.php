@@ -23,18 +23,24 @@ class Kernel extends ConsoleKernel
                 $user->update(['likes_counter' => 0]);
                 $user->save();
             }
-            // User::query()->update(['likes_counter' => 0]);
         })->weekly()->mondays()->at('06:00');
         //
-
-
+        // REPUTATION RESET EVERY SEM AND ADDED TO THEIR TOTAL REPUTATION
+        $schedule->call(function () {
+            $users = User::all();
+            foreach ($users as $user) {
+                $user->update(['total_reputation' => $user->total_reputation + $user->reputation]);
+                $user->update(['reputation' => 0]);
+                $user->save();
+            }
+        })->quarterlyOn(1, '6:00');
         // REPUTATION RESET EVERY 1ST DAY OF THE MONTH AT 6 AM
         // $schedule->call(function () {
         //     info('Start reputation reset');
         //     $users = User::all();
         //     $reputationHistory = [];
         //     $now = Carbon::now();
-        //     $currMonth = $now->format('F');  
+        //     $currMonth = $now->format('F');
 
         //     foreach ($users as $user) {
         //         $newReputationValue = $user->reputation;

@@ -74,6 +74,21 @@ class PostController extends Controller
     {
         //
     }
+    public function allTags($tag)
+    {
+        $announcements = Announcement::all();
+        $categories = Category::all();
+        $allposts = Post::all();
+        $mostUpvotes = Post::withCount('likes')
+        ->orderByDesc('likes_count')
+        ->first();
+        $mostComments = Post::all()
+        ->sortByDesc('comments_count')
+        ->first();
+        $topRep = User::orderByDesc('reputation')->take(3)->get();
+        $posts = Post::where('tags', 'like', '%' . $tag . '%')->paginate(5);
+        return view('pages.alltags', compact('posts', 'allposts','mostUpvotes','mostComments','announcements','categories', 'topRep'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -95,12 +110,13 @@ class PostController extends Controller
         $announcements = Announcement::all();
         $categories1 = Category::all();
         $postIds = Comment::pluck('post_id')->unique()->toArray();
-
+        $tags = explode(',', $post->tags);
+        // dd($tags);
         $comments = Comment::with('post')  // Assuming your relationship is named 'post'
             ->where('post_id', $postIds)   // Replace $postId with the actual post ID
             ->get();
 
-        return view('pages.show', compact('users','comments', 'post', 'post1', 'announcements','categories1'));
+        return view('pages.show', compact('users','comments', 'post', 'post1', 'announcements','categories1', 'tags'));
     }
 
     /**

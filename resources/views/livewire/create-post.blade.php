@@ -38,8 +38,8 @@
                                 <p class="p text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
 
-                            <select class="form-select mb-3" multiple aria-label="multiple select example"name="selectedCategories" id="selectedCategories" wire:model="selectedCategories" multiple>
-                                <option disabled selected>Select a category...</option>
+                            <select class="form-select mb-3" aria-label="multiple select example"name="selectedCategories" id="selectedCategories" wire:model="selectedCategories">
+                                <option selected>Select a category...</option>
                                 @foreach (\App\Models\Category::all() as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }} </option>
                                 @endforeach

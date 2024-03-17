@@ -13,6 +13,10 @@
                                     <i class="fa fa-star"></i>
                                     <span class="ms-2">Reputation: {{$user->reputation}}</span>
                             </li>
+                            <li class="nav-item mb-0 px-0 py-1 active d-flex align-items-center justify-content-center ">
+                                    <i class="fa fa-star"></i>
+                                    <span class="ms-2">Total Reputation: {{$user->total_reputation}}</span>
+                            </li>
                             <li class="nav-item mb-0 px-0 py-1 d-flex align-items-center justify-content-center ">
                                     <i class="fa fa-folder-open"></i>
                                     <span class="ms-2">Posts: {{$user->posts()->count()}}</span>
@@ -56,7 +60,11 @@
                                     <strong>Organization</strong>
                                 </div>
                                 <div class="h6">
-                                    {{$user->organizations->nickname ?? 'This user has yet to set their bio.'}}
+                                    {{$user->organizations->name ?? 'This user has yet to set their org.'}}
+                                </div>
+                                <div class="h6">
+                                   <strong>({{$user->organizations->nickname ?? 'This user has yet to set their org.'}})
+                                    </strong>
                                 </div>
                                 <div>
                                     <strong>Bio</strong>

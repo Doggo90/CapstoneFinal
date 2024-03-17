@@ -102,4 +102,8 @@ class CommentResource extends Resource
             'edit' => Pages\EditComment::route('/{record}/edit'),
         ];
     }
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->role == 'admin';
+    }
 }
