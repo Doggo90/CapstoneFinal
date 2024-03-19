@@ -34,6 +34,7 @@ class SortButton extends Component
     public function render()
     {
         $posts = Post::search($this->search)
+        ->where('is_approved', 1)
         ->withCount(['likes', 'comments'])
         ->orderBy($this->sortBy, $this->sortDir)
         ->paginate(5);

@@ -40,8 +40,11 @@ class CreatePost extends Component
         $this->body = '';
         $this->tags = '';
         $this->selectedCategories = [];
+        $this->redirect('/dashboard');
+
 
     }
+
 
     public function render()
     {

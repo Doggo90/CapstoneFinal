@@ -25,17 +25,21 @@ use App\Http\Controllers\ProviderController;
 use App\Livewire\SortButton;
 use App\Livewire\CreatePost;
 use App\Livewire\Upvote;
+use App\Models\User;
 
 Route::get('/home', function () {
     return redirect('/dashboard');
-});
+})->middleware('auth')->name('home');
 // GOOGLE LOG IN API
 Route::get('/auth/google/redirect', [ProviderController::class,'redirect']);
 Route::get('/auth/google/callback', [ProviderController::class,'callback']);
 // END GOOGLE LOG IN API
+Route::get('/suspended', [PostController::class, 'suspended'])->middleware('suspended')->name('suspended');
+// Route::get('/', App\Livewire\SortButton::class);
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/', App\Livewire\SortButton::class);
-Route::get('/', function () {return redirect('/dashboard');});
+    Route::get('/', function () {return redirect('/dashboard');})->name('home');
+});
 // Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
 // Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
 Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
@@ -64,3 +68,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+

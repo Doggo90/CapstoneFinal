@@ -27,7 +27,10 @@ class UserResource extends Resource
     protected static ?string $navigationLabel = 'Users';
 
     protected static ?int $navigationSort = 1;
-
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_suspended', 1)->count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -126,6 +129,31 @@ class UserResource extends Resource
                                 ->color('success')
                                 ->send();
                         }),
+                        Tables\Actions\Action::make('Suspend User')
+                        ->label('Suspend/Unsuspend User')
+                        ->icon('heroicon-o-eye-slash')
+                        ->color('info')
+                        ->action(function(User $user){
+                            if ($user->is_suspended == false) {
+                                $user->is_suspended = true;
+                                $user->save();
+                                Notification::make()
+                                    ->title('Suspended Successfully!')
+                                    ->body('Selected user have been suspended.')
+                                    ->icon('heroicon-o-eye-slash')
+                                    ->color('info')
+                                    ->send();
+                            } else {
+                                $user->is_suspended = false;
+                                $user->save();
+                                Notification::make()
+                                    ->title('Approval Removed Successfully!')
+                                    ->body('Selected user have been un-suspended.')
+                                    ->icon('heroicon-o-eye-slash')
+                                    ->color('success')
+                                    ->send();
+                            }
+                        }),
                 ]),
             ])
             ->bulkActions([
@@ -137,6 +165,7 @@ class UserResource extends Resource
                         ->deselectRecordsAfterCompletion()
                         ->action(function (Collection $records) {
                             $records->each(function ($record){
+                                $record->total_reputation += $record->reputation;
                                 $record->reputation = 0;
                                 $record->save();
                                 Notification::make()
@@ -146,9 +175,32 @@ class UserResource extends Resource
                                     ->color('success')
                                     ->send();
                             });
-
-
-
+                        }),
+                        Tables\Actions\BulkAction::make('Suspend Users')
+                        ->label('Suspend Users')
+                        ->icon('heroicon-o-eye-slash')
+                        ->color('danger')
+                        ->deselectRecordsAfterCompletion()
+                        ->action(function (Collection $records) {
+                            $records->each(function ($record){
+                                $record->is_suspended = !$record->is_suspended;
+                                $record->save();
+                                if ($record->is_suspended) {
+                                    Notification::make()
+                                        ->title(__('Users Suspended!'))
+                                        ->body(__('Selected users have been suspended.'))
+                                        ->icon('heroicon-o-eye-slash')
+                                        ->color('info')
+                                        ->send();
+                                } else {
+                                    Notification::make()
+                                        ->title(__('Suspension Removed Successfully!'))
+                                        ->body(__('Selected posts suspension has been lifted.'))
+                                        ->icon('heroicon-o-eye')
+                                        ->color('success')
+                                        ->send();
+                                }
+                            });
                         }),
                 ]),
             ]);

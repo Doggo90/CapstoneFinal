@@ -214,7 +214,7 @@
 
                                                 $modifiedCommentBody = preg_replace(
                                                     '/@' . preg_quote($username, '/') . '\b/',
-                                                    "<a href='$profileLink'>@$uniqueUsername</a>",
+                                                    "<a href='$profileLink'>@".$uniqueUsername."</a>",
                                                     $modifiedCommentBody,
                                                     1,
                                                     $count,

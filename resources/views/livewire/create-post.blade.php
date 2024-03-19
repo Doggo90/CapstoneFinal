@@ -56,7 +56,8 @@
                                 <p class="p text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Submit Post</button>
+                        <button type="submit" class="btn btn-success" wire:click="createPost" data-bs-dismiss="modal">Submit Post</button>
+
                     </form>
                 </div>
                 <div class="modal-footer">

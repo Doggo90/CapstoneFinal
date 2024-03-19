@@ -31,10 +31,13 @@ class PostController extends Controller
         $mostComments = Post::all()
         ->sortByDesc('comments_count')
         ->first();
-        $topRep = User::orderByDesc('reputation')->take(3)->get();
+        $first = User::orderByDesc('reputation')->first();
+        $second = User::orderByDesc('reputation')->skip(1)->take(1)->first();
+        $third = User::orderByDesc('reputation')->skip(2)->take(1)->first();
+        $topRep = User::orderByDesc('reputation')->skip(3)->take(7)->get();
         // dd($topRep);
 
-        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories', 'topRep'));
+        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories', 'topRep', 'first', 'second', 'third'));
     }
 
     public function AnnouncementShow(Announcement $announcement){
@@ -169,6 +172,13 @@ class PostController extends Controller
         ]);
         $user = auth()->user();
         return view('pages.firstLogin', compact('user'));
+    }
+    public function suspended()
+    {
+        if(auth()->user()->is_suspended == 1){
+
+            return view('pages.suspended');
+        }
     }
 
 

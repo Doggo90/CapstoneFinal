@@ -33,6 +33,7 @@ class LoginController extends Controller
             $user = Auth::user();
             $user->status = 'active';
             $user->save();
+            
             return redirect()->intended('dashboard');
         }
 

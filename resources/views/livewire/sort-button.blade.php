@@ -72,7 +72,9 @@
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-center inline-block">
-                {{ $posts->withQueryString()->links() }}
+                {{ $posts->withQueryString()->links('vendor.pagination.bootstrap-5') }}
+                {{-- {{ $posts->links('vendor.pagination.bootstrap-5') }} --}}
+                {{-- {{ $posts->links('vendor.pagination.tailwind') }} --}}
             </div>
         </div>
     </div>

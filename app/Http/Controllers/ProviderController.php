@@ -40,6 +40,11 @@ class ProviderController extends Controller
             $user = Auth::user();
             $user->status = 'active';
             $user->save();
+
+            if($user->is_suspended == 1){
+                Auth::logout();
+                return redirect('/login')->with('error', 'Your account has been suspended. Please contact the admin for further info.');
+            }
             return redirect('/dashboard')->with('message', 'Logged in Successfully');
         }
     }

@@ -131,7 +131,7 @@ class PostResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\Action::make('Bulk Approve Post')
+                    Tables\Actions\Action::make('Approve Post')
                         ->label('Approve Post/Remove Approval')
                         ->icon('heroicon-o-check')
                         ->color('success')
@@ -161,7 +161,7 @@ class PostResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\BulkAction::make('Bulk Approve Post')
+                    Tables\Actions\BulkAction::make('Approve Posts')
                         ->label('Bulk Approve/Disapprove')
                         ->icon('heroicon-o-check')
                         ->color('success')
