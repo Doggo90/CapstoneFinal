@@ -85,7 +85,7 @@
             <div class="col-lg-9 mb-lg-0 mb-4">
                 <livewire:create-post />
                 <br>
-                @foreach ($categories->posts as $category)
+                @foreach ($categories1->posts as $category)
                     @if ($category->is_archived == 0)
                         <a href="/post/{{ $category->id }}">
                             <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
@@ -125,6 +125,8 @@
             <div class="col-lg-3 ">
                 <br>
                 @include('components.announcements')
+                <br>
+                @include('components.categories')
             </div>
 
 

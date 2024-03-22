@@ -20,17 +20,20 @@
                     @php
                         $notificationType = $notification->type;
                     @endphp
+                    {{-- ------------------ NOTIF FOR COMMENTS ---------------------- --}}
                     @if ($notificationType === 'App\Notifications\CommentNotif')
                         <li class="divide-y divide-green-100 dark:divide-green-400">
                             <a wire:click="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['link'] }}"
-                                class="d-flex px-4 py-3 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
+                                class="d-flex p-2 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
                                 <img class="img-fluid rounded-circle me-3" style="width: 2rem; height: 2rem;"
                                     src="{{ !empty($notification->data['photo']) ? url($notification->data['photo']) : url('/img/no-image.png') }}"
                                     alt="commenter img">
                                 <div class="pl-2 flex-grow-1">
                                     <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
                                         <span
-                                            class="font-semibold text-black-600 dark-text-black">{{ $notification->data['user'] }}</span>
+                                            class="font-semibold text-black-600 dark-text-black">
+                                            <strong>{{ $notification->data['user'] }}</strong>
+                                        </span>
                                         commented on your post. <span class="font-medium text-blue-500"
                                             href=""></span>
                                     </div>
@@ -40,17 +43,20 @@
                             </a>
                         </li>
                     @endif
+                    {{-- ------------------ NOTIF FOR REPLIES ---------------------- --}}
                     @if ($notificationType === 'App\Notifications\ReplyNotif')
                         <li class="divide-y divide-green-100 dark:divide-green-400">
                             <a wire:click="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['link'] }}"
-                                class="d-flex px-4 py-3 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
+                                class="d-flex  p-2 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
                                 <img class="img-fluid rounded-circle me-3" style="width: 2rem; height: 2rem;"
                                     src="{{ !empty($notification->data['photo']) ? url($notification->data['photo']) : url('/img/no-image.png') }}"
                                     alt="commenter img">
                                 <div class="pl-2 flex-grow-1">
                                     <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
                                         <span
-                                            class="font-semibold text-black-600 dark-text-black">{{ $notification->data['user'] }}</span>
+                                            class="font-semibold text-black-600 dark-text-black">
+                                            <strong>{{ $notification->data['user'] }}</strong>
+                                        </span>
                                         replied to your comment. <span class="font-medium text-blue-500"
                                             href=""></span>
                                     </div>
@@ -60,17 +66,20 @@
                             </a>
                         </li>
                     @endif
+                    {{-- ------------------ NOTIF FOR COMMENT MENTIONS ---------------------- --}}
                     @if ($notificationType === 'App\Notifications\MentionNotif')
                         <li class="divide-y divide-green-100 dark:divide-green-400">
                             <a wire:click="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['link'] }}"
-                                class="d-flex px-4 py-3 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
+                                class="d-flex p-2 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
                                 <img class="img-fluid rounded-circle me-3" style="width: 2rem; height: 2rem;"
                                     src="{{ !empty($notification->data['photo']) ? url($notification->data['photo']) : url('/img/no-image.png') }}"
                                     alt="commenter img">
                                 <div class="pl-2 flex-grow-1">
                                     <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
                                         <span
-                                            class="font-semibold text-black-600 dark-text-black">{{ $notification->data['user'] }}</span>
+                                            class="font-semibold text-black-600 dark-text-black">
+                                            <strong>{{ $notification->data['user'] }}</strong>
+                                        </span>
                                         mentioned you to their comment/reply. <span class="font-medium text-blue-500"
                                             href=""></span>
                                     </div>
@@ -80,17 +89,20 @@
                             </a>
                         </li>
                     @endif
+                    {{-- ------------------ NOTIF FOR REPLY MENTIONS ---------------------- --}}
                     @if ($notificationType === 'App\Notifications\ReplyMention')
                         <li class="divide-y divide-green-100 dark:divide-green-400">
                             <a wire:click="markAsRead('{{ $notification->id }}')" href="{{ $notification->data['link'] }}"
-                                class="d-flex px-4 py-3 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
+                                class="d-flex p-2 hover-bg-green-100 dark-hover-bg-green-400 align-items-center">
                                 <img class="img-fluid rounded-circle me-3" style="width: 2rem; height: 2rem;"
                                     src="{{ !empty($notification->data['photo']) ? url($notification->data['photo']) : url('/img/no-image.png') }}"
                                     alt="commenter img">
                                 <div class="pl-2 flex-grow-1">
                                     <div class="text-gray-500 text-sm mb-1 dark-text-black-400">
                                         <span
-                                            class="font-semibold text-black-600 dark-text-black">{{ $notification->data['user'] }}</span>
+                                            class="font-semibold text-black-600 dark-text-black">
+                                            <strong>{{ $notification->data['user'] }}</strong>
+                                        </span>
                                         mentioned you to their comment/reply. <span class="font-medium text-blue-500"
                                             href=""></span>
                                     </div>

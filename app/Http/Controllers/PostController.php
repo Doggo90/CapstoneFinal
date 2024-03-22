@@ -22,8 +22,11 @@ class PostController extends Controller
     public function index(Request $request)
     {
 
-        $announcements = Announcement::all();
-        $categories = Category::all();
+        $latestAnn = Announcement::latest()->first();
+        $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
+        // dd($announcements);
+        $categories = Category::all()->take(3);
+        $allCat = Category::all()->skip(3);
         $allposts = Post::all();
         $mostUpvotes = Post::withCount('likes')
         ->orderByDesc('likes_count')
@@ -37,16 +40,19 @@ class PostController extends Controller
         $topRep = User::orderByDesc('reputation')->skip(3)->take(7)->get();
         // dd($topRep);
 
-        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories', 'topRep', 'first', 'second', 'third'));
+        return view('pages.dashboard', compact('allposts','mostUpvotes','mostComments','announcements','categories', 'topRep', 'first', 'second', 'third','allCat', 'latestAnn'));
     }
 
     public function AnnouncementShow(Announcement $announcement){
-        $announcements = Announcement::all();
+        $latestAnn = Announcement::latest()->first();
+        $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
+        // $announcements = Announcement::all();
         $users = User::all();
         $announcement = Announcement::with('author')->find($announcement->id);
+        $categories = Category::all()->take(3);
+        $allCat = Category::all()->skip(3);
 
-
-        return view('pages.announcement', compact('users', 'announcement', 'announcements'));
+        return view('pages.announcement', compact('users', 'announcement', 'announcements','latestAnn','categories' ,'allCat'));
     }
 
     /**
@@ -54,16 +60,20 @@ class PostController extends Controller
      */
     public function CategoryShow(Category $category)
     {
-        $announcements = Announcement::all();
-        $categories = Category::with('posts')->find($category->id);
-        $categories1 = Category::all();
+        $latestAnn = Announcement::latest()->first();
+        $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
+        // $announcements = Announcement::all();
+        $categories1 = Category::with('posts')->find($category->id);
+        // $categories1 = Category::all();
+        $categories = Category::all()->take(3);
+        $allCat = Category::all()->skip(3);
         $mostUpvotes = Post::withCount('likes')
         ->orderByDesc('likes_count')
         ->first();
         $mostComments = Post::all()
         ->sortByDesc('comments_count')
         ->first();
-        return view('pages.category', compact('mostUpvotes','mostComments','announcements','categories','categories1'));
+        return view('pages.category', compact('mostUpvotes','mostComments','announcements','categories','categories1','latestAnn','allCat'));
     }
 
     public function AllCategories(Category $category)
@@ -107,10 +117,12 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        $latestAnn = Announcement::latest()->first();
+        $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
         $post1 = Post::with('categories')->find($post->id);
         $users = User::all();
         $post = Post::with('author')->find($post->id);
-        $announcements = Announcement::all();
+        // $announcements = Announcement::all();
         $categories1 = Category::all();
         $postIds = Comment::pluck('post_id')->unique()->toArray();
         $tags = explode(',', $post->tags);
@@ -119,7 +131,7 @@ class PostController extends Controller
             ->where('post_id', $postIds)   // Replace $postId with the actual post ID
             ->get();
 
-        return view('pages.show', compact('users','comments', 'post', 'post1', 'announcements','categories1', 'tags'));
+        return view('pages.show', compact('users','comments', 'post', 'post1', 'announcements','categories1', 'tags', 'latestAnn'));
     }
 
     /**

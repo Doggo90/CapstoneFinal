@@ -23,13 +23,13 @@ class ListPosts extends ListRecords
     {
         return [
             'All' => Tab::make(),
-            'Archived' => Tab::make()
-            ->modifyQueryUsing( function($query){
-                $query->where('is_archived', 1);
-            }),
             'Approved Posts' => Tab::make()->modifyQueryUsing( function($query){
                 $query->where('is_approved', 1);
             }),
+            'Archived' => Tab::make()
+            ->modifyQueryUsing( function($query){
+                $query->where('is_archived', 1);
+            })->badge(Post::query()->where('is_archived', 1)->count()),
             'Pending Posts' => Tab::make()->modifyQueryUsing( function($query){
                 $query->where('is_approved', 0);
             })->badge(Post::query()->where('is_approved', 0)->count()),

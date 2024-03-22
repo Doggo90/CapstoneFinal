@@ -7,6 +7,7 @@
 
         <div class="row">
             <div class="col-lg-3">
+
                 @include('components.categories')
                 @php
                     use App\Models\Post;

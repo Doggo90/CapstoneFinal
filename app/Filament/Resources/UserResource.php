@@ -120,6 +120,7 @@ class UserResource extends Resource
                         ->icon('heroicon-o-arrow-path')
                         ->color('warning')
                         ->action(function(User $user){
+                            $user->total_reputation += $user->reputation;
                             $user->reputation = 0;
                             $user->save();
                             Notification::make()

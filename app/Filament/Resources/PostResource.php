@@ -32,6 +32,7 @@ class PostResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::where('is_approved', 0)->count();
+        // + Post::query()->where('is_archived', 1)->count()
     }
 
 
