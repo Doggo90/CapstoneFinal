@@ -78,7 +78,6 @@
                     </div>
                 </div>
         </div>
-        <br><br>
         {{-- USER DETAILS END --}}
 
 

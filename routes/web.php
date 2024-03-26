@@ -30,6 +30,9 @@ use App\Models\User;
 Route::get('/home', function () {
     return redirect('/dashboard');
 })->middleware('auth')->name('home');
+Route::get('/index', function () {
+    return redirect('/dashboard');
+})->middleware('auth')->name('index');
 // GOOGLE LOG IN API
 Route::get('/auth/google/redirect', [ProviderController::class,'redirect']);
 Route::get('/auth/google/callback', [ProviderController::class,'callback']);

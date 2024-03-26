@@ -1,6 +1,7 @@
 <div class="pb-0" x-data="{ open: false, hide: false }" >
-    <p class="h4 text-bold text-center mt-2">Announcements</p>
+
     <div class="card z-index-2 mb-2 mt-2 " style="max-height: 200px; overflow: hidden;">
+        <p class="h4 text-bold text-center mt-2">Announcements</p>
         <a href="/announcement/{{ $latestAnn->id }}">
             <div class="card-body pb-0 pt-2 bg-transparent ">
                 <h4 class="text-capitalize pb-0 mb-0">

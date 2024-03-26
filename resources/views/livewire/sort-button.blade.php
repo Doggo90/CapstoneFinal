@@ -7,12 +7,13 @@
     <div class="container-fluid d-flex justify-content-center">
         <div x-data="{ query: '' }" id="search-box" class="container-fluid py-auto">
             <div class="input-group">
-                <input class="form-control" x-model="query" type="text" wire:model.live.debounce.300ms="search"
+                <input class="form-control" x-model="query" type="text" wire:model.live.prevent.debounce.300ms="search"
                     name="search" id="search" placeholder="Search here...">
-                <button x-on:click="$dispatch('search', { search: query })" type="button"
+                {{-- <button  type="button"
                     class="btn btn-success py-auto custom-button">
                     Search
-                </button>
+                </button> --}}
+                <button x-on:click="$dispatch('search', { search: query })" type="button " class="py-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin: 0;">Search</button>
             </div>
         </div>
     </div>
@@ -35,8 +36,8 @@
             @foreach ($posts as $post)
                 @if ($post->is_archived == 0 && $post->is_approved)
                     <a href="/post/{{ $post->id }}">
-                            <div class="card z-index-2" style="max-height: 200px; overflow: hidden;">
-                                <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-start mx-3">
+                            <div class="card z-index-2 mb-2" style="max-height: 200px; overflow: hidden;">
+                                <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-start mx-3 pt-0">
                                     <p class="text-capitalize text-bold">
                                         <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;"
                                             src="{{ !empty($post->author->photo) ? url($post->author->photo) : url('/img/no-image.png') }}"
@@ -44,10 +45,10 @@
                                         {{ $post->author->name }}
                                     </p>
                                 </div>
-                                <div class="card-body d-flex justify-content-between mx-4 mb-4" style="max-height: 100px; overflow: hidden; margin-bottom: 0; margin-left: 0; margin-right: 0;">
+                                <div class="card-body d-flex justify-content-between mx-4 py-0" style="max-height: 100px; overflow: hidden; margin-bottom: 0; margin-left: 0; margin-right: 0;">
                                     <div>
                                         <p class="text-uppercase fw-bold">
-                                            {{ \Illuminate\Support\Str::limit(explode('å', $post->title)[0], $limit = 40, $end = '...') }}</p>
+                                            {{ \Illuminate\Support\Str::limit(explode('å', $post->title)[0], $limit = 20, $end = '...') }}</p>
                                     </div>
                                     <div >
                                         <p>
@@ -58,7 +59,7 @@
                                     </p>
                                     </div>
                                 </div>
-                                <div class="card-footer d-flex justify-content-start p-3 mx-4 my-2" style="max-height: 100px; padding-top: 0; margin-top: 0;">
+                                <div class="card-footer d-flex justify-content-start p-3 mx-4 mt-0 mb-2 py-0" style="max-height: 100px; padding-top: 0; margin-top: 0;">
                                     <p class="text-sm mb-0">
                                         <i class="fa fa-clock text-success"></i>
                                         <span class="font-weight-bold"> {{ $post->created_at->diffForHumans() }}</span>
@@ -66,17 +67,33 @@
                                 </div>
                             </div>
                     </a>
-                    <br>
+                    {{-- <br> --}}
                 @endif
             @endforeach
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-center inline-block">
-                {{ $posts->withQueryString()->links('vendor.pagination.bootstrap-5') }}
+                <style>
+                    .pagination {
+                        /* Custom pagination styles */
+                    }
+
+                    .pagination .page-link {
+                        /* Custom page link styles */
+                        background-color: #337ab7;
+                        color: #fff;
+                    }
+
+                    .pagination .page-link:hover {
+                        /* Custom hover styles */
+                        background-color: #23527c;
+                    }
+                </style>
+                {{ $posts->withQueryString()->links() }}
                 {{-- {{ $posts->links('vendor.pagination.bootstrap-5') }} --}}
                 {{-- {{ $posts->links('vendor.pagination.tailwind') }} --}}
             </div>
         </div>
     </div>
-    @livewireScripts
+    {{-- @livewireScripts --}}
 </div>

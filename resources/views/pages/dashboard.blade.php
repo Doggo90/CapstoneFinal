@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-3">
 
-                @include('components.categories')
+
                 @php
                     use App\Models\Post;
                     $mostLikedPost = Post::withCount('likes')
@@ -80,7 +80,7 @@
                         </div>
                     </a>
                 </div>
-                <br>
+                @include('components.categories')
             </div>
             {{-- END FEATURED POSTS || ANNOUCEMENTS --}}
             <div class="col-lg-6 mb-lg-0 mb-4">

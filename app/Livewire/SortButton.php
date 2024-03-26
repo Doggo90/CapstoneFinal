@@ -38,7 +38,7 @@ class SortButton extends Component
         ->where('is_archived', 0)
         ->withCount(['likes', 'comments'])
         ->orderBy($this->sortBy, $this->sortDir)
-        ->paginate(5);
+        ->paginate(10);
         $categories = Category::with('posts')->get();
         return view('livewire.sort-button',compact('posts', 'categories'));
     }

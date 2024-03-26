@@ -67,7 +67,7 @@
                             </ul>
                         </div>
                         <button type="submit"
-                            class="btn btn-success position-absolute bottom-0 end-0 mb-2 me-4 justify-items-center">
+                            class="py-2 px-3 position-absolute bottom-0 end-0 mb-2 me-4 justify-items-center focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             <i class="fa fa-paper-plane"></i>
                         </button>
                     </form>

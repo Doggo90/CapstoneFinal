@@ -1,6 +1,7 @@
 {{-- NOTIF BUTTON WHEN NOTIF COUNT > 0 START --}}
 <div class="btn-group mt-3">
-    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    <button
+    type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa fa-bell"></i>
         @if (Auth::user()?->unreadNotifications->count())
             <span
@@ -15,7 +16,7 @@
     @auth
         @if (Auth::user()?->unreadNotifications->count())
             <ul class="dropdown-menu mt-0 margin-auto dropdown-menu-end"
-                style="width: max-content; border-radius: 10px; border: 4px solid #b7bbb9;">
+                style="width: max-content; border-radius: 10px; border: 4px solid #b7bbb9; margin-left: 20%;">
                 @foreach (Auth::user()?->unreadNotifications as $notification)
                     @php
                         $notificationType = $notification->type;
