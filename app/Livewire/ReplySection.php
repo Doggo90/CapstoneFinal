@@ -92,10 +92,10 @@ class ReplySection extends Component
                     // dd($matchedUsers);
                 }
             }
+            $this->mentionedUsers = [];
         }
 
         // Reset mentionedUsers array
-        $this->mentionedUsers = [];
         $this->body = '';
         toastr()->success('Reply posted!');
 

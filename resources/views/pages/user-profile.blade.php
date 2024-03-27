@@ -121,12 +121,12 @@
                                                 value="{{ old('address', auth()->user()->address) }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    {{-- <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Phone</label>
                                             <input class="form-control" type="number" name="phone" value="{{ old('phone', auth()->user()->phone)}}">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <hr class="horizontal dark">
                                 <p class="text-uppercase text-sm">About me</p>

@@ -11,21 +11,27 @@
                     <div class="col-lg-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <!-- Post title-->
-                                <h2 class="fw-bolder mb-1">{{ $announcement->title }}</h2>
-                                {{-- <livewire:archive-button :announcement="$announcement" /> --}}
-                                <!-- Post meta content-->
-                                <div class="text-muted fst-italic mb-2">{{ $announcement->created_at->diffForHumans() }} by
-                                    <a href="/profile/{{ $announcement->author->id }}">{{ $announcement->author->name }} <i
-                                            class="fa fa-star"></i>{{ $announcement->author->reputation }}</a>
+                                {{--                ANNNOUNCEMENT TITLE                  --}}
+                                <h2 class="fw-bolder mb-1 text-3xl">{{ $announcement->title }}</h2>
+                                <div class="text-muted fst-italic mb-2">
+                                    {{ $announcement->created_at->diffForHumans() }} by
+                                    <a href="/profile/{{ $announcement->author->id }}">
+                                        {{ $announcement->author->name }}
+                                        <i class="fa fa-star"></i>
+                                        {{ $announcement->author->reputation }}
+                                    </a>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <p class="fs-5 mb-4">
-                                    <img src="/storage/{{ $announcement->image }}" alt="" style="max-width: 60%">
+
+                                {{--                ANNNOUNCEMENT BODY                  --}}
+                            <div class="card-body d-flex justify-items-center">
+
+                                    <img class="img-fluid d-flex" src="/storage/{{ $announcement->image }}" alt="" style="max-width: 100%; ">
                                     <br><br><br>
-                                    {{ $announcement->body }}
-                                </p>
+                            </div>
+                            <div>
+
+                                <p class="fs-5 mb-4">{{ $announcement->body }}</p>
                             </div>
                             <br>
                         </div>
@@ -33,15 +39,11 @@
                         {{-- <livewire:comment-section :key="$post->id" :$post /> --}}
                     </div>
                 </div>
-
             </div>
             {{-- END ANNOUNCEMENT CONTENT --}}
-
-
             {{-- RIGHT SIDE COLUMN (ANNOUNCEMENTS AND CATEGORIES ETC.) --}}
-            <div class="col-lg-3 ">
+            <div class="col-lg-3 mt-0">
                 @include('components.announcements')
-                <br>
                 {{-- CATEGORIES CARD --}}
                 <div class="card">
                     @include('components.categories')

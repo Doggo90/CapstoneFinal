@@ -12,8 +12,8 @@
 
                                   <div class="mb-md-5 mt-md-4 pb-5">
 
-                                    <h2 class="fw-bold text-white">CvSU - Tanza</h2>
-                                    <h4 class="fw-bold mb-2 text-white">Acad Forum</h3>
+                                    <h2 class="fw-bold text-3xl text-white">CvSU - Tanza</h2>
+                                    <h4 class="fw-bold mb-2 text-2xl text-white">Acad Forum</h3>
                                     <p class="text-white-50 mb-5">Please use your CvSU Email to login.</p>
 
                                     <a href="/auth/google/redirect" class="btn btn-info text-white">

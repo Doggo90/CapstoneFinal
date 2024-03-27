@@ -45,7 +45,7 @@
 
                                 {{-- <h1>{{ substr($search, 1) }}</h1> --}}
                                 @foreach ($results as $result)
-                                    <h1>{{ $search }}</h1>
+                                    {{-- <h1>{{ $search }}</h1> --}}
                                     <div class="random">
                                         <li>
                                             <a wire:click="addMentionedUser('{{ $result->email }}'),open = false"

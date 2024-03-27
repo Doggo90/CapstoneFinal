@@ -46,11 +46,11 @@ class PostController extends Controller
     public function AnnouncementShow(Announcement $announcement){
         $latestAnn = Announcement::latest()->first();
         $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
+        $categories = Category::all()->take(3);
+        $allCat = Category::all()->skip(3);
         // $announcements = Announcement::all();
         $users = User::all();
         $announcement = Announcement::with('author')->find($announcement->id);
-        $categories = Category::all()->take(3);
-        $allCat = Category::all()->skip(3);
 
         return view('pages.announcement', compact('users', 'announcement', 'announcements','latestAnn','categories' ,'allCat'));
     }
@@ -58,12 +58,13 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function CategoryShow(Category $category)
+    public function CategoryShow($id)
     {
         $latestAnn = Announcement::latest()->first();
         $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
         // $announcements = Announcement::all();
-        $categories1 = Category::with('posts')->find($category->id);
+        $catName = Category::find($id);
+        $categories1 = Category::with('posts')->paginate(3)->find($id);
         // $categories1 = Category::all();
         $categories = Category::all()->take(3);
         $allCat = Category::all()->skip(3);
@@ -73,7 +74,7 @@ class PostController extends Controller
         $mostComments = Post::all()
         ->sortByDesc('comments_count')
         ->first();
-        return view('pages.category', compact('mostUpvotes','mostComments','announcements','categories','categories1','latestAnn','allCat'));
+        return view('pages.category', compact('mostUpvotes','mostComments','announcements','categories','categories1','latestAnn','allCat', 'catName'));
     }
 
     public function AllCategories(Category $category)
@@ -89,8 +90,10 @@ class PostController extends Controller
     }
     public function allTags($tag)
     {
-        $announcements = Announcement::all();
-        $categories = Category::all();
+        $latestAnn = Announcement::latest()->first();
+        $announcements = Announcement::where('created_at', '<', $latestAnn->created_at)->orderBy('created_at', 'desc')->get();
+        $categories = Category::all()->take(3);
+        $allCat = Category::all()->skip(3);
         $allposts = Post::all();
         $mostUpvotes = Post::withCount('likes')
         ->orderByDesc('likes_count')
@@ -99,8 +102,15 @@ class PostController extends Controller
         ->sortByDesc('comments_count')
         ->first();
         $topRep = User::orderByDesc('reputation')->take(3)->get();
-        $posts = Post::where('tags', 'like', '%' . $tag . '%')->paginate(5);
-        return view('pages.alltags', compact('posts', 'allposts','mostUpvotes','mostComments','announcements','categories', 'topRep'));
+        $posts = Post::where('tags', 'like', '%' . $tag . '%')
+        ->where('is_approved', 1)
+        ->where('is_archived', 0)
+        ->paginate(10);
+        $first = User::orderByDesc('reputation')->first();
+        $second = User::orderByDesc('reputation')->skip(1)->take(1)->first();
+        $third = User::orderByDesc('reputation')->skip(2)->take(1)->first();
+        $topRep = User::orderByDesc('reputation')->skip(3)->take(7)->get();
+        return view('pages.alltags', compact('posts', 'allposts','mostUpvotes','mostComments','announcements','categories', 'topRep','latestAnn','allCat', 'topRep', 'first', 'second', 'third'));
     }
 
     /**

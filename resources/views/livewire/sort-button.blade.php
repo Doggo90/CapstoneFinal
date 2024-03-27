@@ -13,7 +13,7 @@
                     class="btn btn-success py-auto custom-button">
                     Search
                 </button> --}}
-                <button x-on:click="$dispatch('search', { search: query })" type="button " class="py-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin: 0;">Search</button>
+                <button x-on:click="$dispatch('search', { search: query })" type="button " class="py-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-m px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin: 0;">Search</button>
             </div>
         </div>
     </div>
@@ -37,33 +37,31 @@
                 @if ($post->is_archived == 0 && $post->is_approved)
                     <a href="/post/{{ $post->id }}">
                             <div class="card z-index-2 mb-2" style="max-height: 200px; overflow: hidden;">
-                                <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-start mx-3 pt-0">
-                                    <p class="text-capitalize text-bold">
+                                <div class="card-header pb-0 pt-3 bg-transparent d-flex justify-content-start mx-3">
+                                    <div class=" d-flex justify-content-between">
                                         <img class="img-fluid rounded-circle" style="width: 2rem; height: 2rem;"
                                             src="{{ !empty($post->author->photo) ? url($post->author->photo) : url('/img/no-image.png') }}"
                                             alt="profile">
-                                        {{ $post->author->name }}
-                                    </p>
-                                </div>
-                                <div class="card-body d-flex justify-content-between mx-4 py-0" style="max-height: 100px; overflow: hidden; margin-bottom: 0; margin-left: 0; margin-right: 0;">
-                                    <div>
-                                        <p class="text-uppercase fw-bold">
-                                            {{ \Illuminate\Support\Str::limit(explode('å', $post->title)[0], $limit = 20, $end = '...') }}</p>
+                                        <p class="text-capitalize text-bold ps-2">{{ $post->author->name }}</p>
                                     </div>
-                                    <div >
-                                        <p>
+                                </div>
+                                <div class="card-body d-flex justify-content-between mx-4  py-2" style="max-height: 100px; overflow: hidden; margin-bottom: 0; margin-left: 0; margin-right: 0;">
+                                        <p class="text-uppercase fw-bold">
+                                            {{ \Illuminate\Support\Str::limit(explode('å', $post->title)[0], $limit =40, $end = '...') }}
+                                        </p>
+
+                                </div>
+                                <div class="card-footer d-flex justify-content-between p-3 mx-4 mt-0 mb-2 py-0" style="max-height: 100px; padding-top: 0; margin-top: 0;">
+                                    <div class="d-flex">
                                         <i class="fa fa-arrow-up text-success me-3"></i>
                                         <span class="font-weight-bold">{{ $post->likes()->count() }}</span>
                                         <i class="fa fa-comment text-success ms-3 me-3"></i>
                                         <span class="font-weight-bold">{{ $post->comments->count() }}</span>
-                                    </p>
                                     </div>
-                                </div>
-                                <div class="card-footer d-flex justify-content-start p-3 mx-4 mt-0 mb-2 py-0" style="max-height: 100px; padding-top: 0; margin-top: 0;">
-                                    <p class="text-sm mb-0">
+                                    <div class="ms-5 d-flex">
                                         <i class="fa fa-clock text-success"></i>
-                                        <span class="font-weight-bold"> {{ $post->created_at->diffForHumans() }}</span>
-                                    </p>
+                                        <span class="font-weight-bold text-sm mb-0 ms-2"> {{ $post->created_at->diffForHumans() }}</span>
+                                    </div>
                                 </div>
                             </div>
                     </a>
