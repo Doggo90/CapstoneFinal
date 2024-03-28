@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Notifications\ReplyMention;
 use Livewire\Component;
 use App\Models\Comment;
 use App\Models\Reply;
@@ -56,7 +57,7 @@ class ReplySection extends Component
         $content = $parser->parse($reply->body);
         // $content2 = substr($content, 1);
         $reply->body = $content;
-        $mentionedUsers = $reply->mentionsRelationship()->pluck('name');
+        // $mentionedUsers = $reply->mentionsRelationship()->pluck('name');
 
         foreach ($this->mentionedUsers as $email) {
             $user = User::where('email', $email)->first();
@@ -88,14 +89,14 @@ class ReplySection extends Component
             })->get();
             foreach ($mentionedUser as $result) {
                 if (auth()->user()->email != $result->email) {
-                    $result->notify(new MentionNotif($reply));
-                    // dd($matchedUsers);
+                    $result->notify(new ReplyMention($reply));
+                    // dd($mentionedUser);
                 }
             }
-            $this->mentionedUsers = [];
         }
 
         // Reset mentionedUsers array
+        $this->mentionedUsers = [];
         $this->body = '';
         toastr()->success('Reply posted!');
 
